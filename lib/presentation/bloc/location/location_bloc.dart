@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+
 import 'package:attendance_app/domain/entities/location.dart';
 import 'package:attendance_app/domain/usecases/location/add_location.dart';
 import 'package:attendance_app/domain/usecases/location/get_locations.dart';

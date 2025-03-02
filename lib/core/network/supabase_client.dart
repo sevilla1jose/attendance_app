@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:attendance_app/core/errors/exceptions.dart';
-import 'package:attendance_app/core/constants/app_constants.dart';
 
 /// Wrapper para el cliente de Supabase que proporciona funcionalidades comunes
 abstract class SupabaseClient {
