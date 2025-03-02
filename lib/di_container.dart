@@ -6,7 +6,7 @@ import 'package:camera/camera.dart';
 
 // Core
 import 'package:attendance_app/core/network/network_info.dart';
-import 'package:attendance_app/core/network/supabase_client.dart';
+import 'package:attendance_app/core/network/supabase_client_app.dart';
 import 'package:attendance_app/core/platform/platform_info.dart';
 
 // Data sources
@@ -207,7 +207,7 @@ Future<void> init() async {
   //! Core
   sl.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(connectivity: sl()));
-  sl.registerLazySingleton<SupabaseClient>(() => SupabaseClientImpl());
+  sl.registerLazySingleton<SupabaseClientApp>(() => SupabaseClientImpl());
   sl.registerLazySingleton<PlatformInfo>(() => PlatformInfoImpl());
 
   //! Database

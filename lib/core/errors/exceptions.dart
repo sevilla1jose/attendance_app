@@ -9,68 +9,71 @@ abstract class AppException implements Exception {
 }
 
 /// Excepción que ocurre cuando hay un problema de servidor
-class ServerException extends AppException {
+class ServerExceptionApp extends AppException {
   final int? statusCode;
 
-  ServerException({required String message, this.statusCode}) : super(message);
+  ServerExceptionApp({
+    required String message,
+    this.statusCode,
+  }) : super(message);
 }
 
 /// Excepción que ocurre por problemas con la base de datos local
-class DatabaseException extends AppException {
-  DatabaseException(String message) : super(message);
+class DatabaseExceptionApp extends AppException {
+  DatabaseExceptionApp(String message) : super(message);
 }
 
 /// Excepción que ocurre cuando no hay conectividad
-class NetworkException extends AppException {
-  NetworkException() : super('No hay conexión a internet');
+class NetworkExceptionApp extends AppException {
+  NetworkExceptionApp() : super('No hay conexión a internet');
 }
 
 /// Excepción que ocurre por problemas de autenticación
-class AuthException extends AppException {
-  AuthException(String message) : super(message);
+class AuthExceptionApp extends AppException {
+  AuthExceptionApp(String message) : super(message);
 }
 
 /// Excepción que ocurre cuando no se encuentran datos
-class NotFoundException extends AppException {
-  NotFoundException(String message) : super(message);
+class NotFoundExceptionApp extends AppException {
+  NotFoundExceptionApp(String message) : super(message);
 }
 
 /// Excepción que ocurre por problemas con la cámara
-class CameraException extends AppException {
-  CameraException(String message) : super(message);
+class CameraExceptionApp extends AppException {
+  CameraExceptionApp(String message) : super(message);
 }
 
 /// Excepción que ocurre por problemas de geolocalización
-class LocationException extends AppException {
-  LocationException(String message) : super(message);
+class LocationExceptionApp extends AppException {
+  LocationExceptionApp(String message) : super(message);
 }
 
 /// Excepción que ocurre cuando un usuario no tiene permisos suficientes
-class PermissionException extends AppException {
-  PermissionException(String message) : super(message);
+class PermissionExceptionApp extends AppException {
+  PermissionExceptionApp(String message) : super(message);
 }
 
 /// Excepción que ocurre por problemas con el reconocimiento facial
-class FaceRecognitionException extends AppException {
-  FaceRecognitionException(String message) : super(message);
+class FaceRecognitionExceptioApp extends AppException {
+  FaceRecognitionExceptioApp(String message) : super(message);
 }
 
 /// Excepción que ocurre cuando la validación falla
-class ValidationException extends AppException {
-  ValidationException(String message) : super(message);
+class ValidationExceptionApp extends AppException {
+  ValidationExceptionApp(String message) : super(message);
 }
 
 /// Excepción que ocurre cuando hay problemas con el almacenamiento
-class StorageException extends AppException {
-  StorageException(String message) : super(message);
+class StorageExceptionApp extends AppException {
+  StorageExceptionApp(String message) : super(message);
 }
 
 /// Excepción que ocurre cuando hay problemas con la sincronización
-class SyncException extends AppException {
-  SyncException(String message) : super(message);
+class SyncExceptionApp extends AppException {
+  SyncExceptionApp(String message) : super(message);
 }
 
 /// Excepción que ocurre durante la generación de reportes
-class ReportException extends AppException {
-  ReportException(String message) : super(message);
+class ReportExceptionApp extends AppException {
+  ReportExceptionApp(String message) : super(message);
 }

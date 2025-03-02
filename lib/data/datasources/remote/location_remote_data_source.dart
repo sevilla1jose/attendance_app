@@ -1,6 +1,6 @@
 import 'package:attendance_app/core/constants/app_constants.dart';
 import 'package:attendance_app/core/errors/exceptions.dart';
-import 'package:attendance_app/core/network/supabase_client.dart';
+import 'package:attendance_app/core/network/supabase_client_app.dart';
 import 'package:attendance_app/core/utils/geolocation_utils.dart';
 import 'package:attendance_app/data/models/location_model.dart';
 import 'package:uuid/uuid.dart';

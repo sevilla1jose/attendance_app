@@ -1,7 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:attendance_app/core/errors/exceptions.dart';
-import 'package:attendance_app/core/network/supabase_client.dart';
+import 'package:attendance_app/core/network/supabase_client_app.dart';
 import 'package:attendance_app/data/models/auth_model.dart';
 import 'package:attendance_app/data/models/user_model.dart';
 import 'package:attendance_app/domain/entities/user.dart';
