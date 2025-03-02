@@ -2,33 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:attendance_app/core/platform/platform_info.dart';
 
-/// Indicador de carga adaptado a la plataforma
+/// Indicador de carga adaptable a la plataforma
 class AppLoadingIndicator extends StatelessWidget {
-  /// Color del indicador de carga
+  /// Color del indicador
   final Color? color;
 
-  /// Tamaño del indicador de carga
+  /// Tamaño del indicador
   final double size;
+
+  /// Texto a mostrar debajo del indicador
+  final String? text;
+
+  /// Estilo del texto
+  final TextStyle? textStyle;
 
   /// Información de la plataforma
   final PlatformInfo platformInfo;
-
-  /// Texto que se muestra debajo del indicador (opcional)
-  final String? text;
 
   /// Constructor del indicador de carga
   const AppLoadingIndicator({
     Key? key,
     this.color,
     this.size = 36.0,
-    required this.platformInfo,
     this.text,
+    this.textStyle,
+    required this.platformInfo,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Usar diseño específico de plataforma
-    final Widget indicator = platformInfo.platform == AppPlatform.iOS
+    final indicator = platformInfo.platform == AppPlatform.iOS
         ? CupertinoActivityIndicator(
             radius: size / 2,
             color: color,
@@ -37,24 +40,24 @@ class AppLoadingIndicator extends StatelessWidget {
             width: size,
             height: size,
             child: CircularProgressIndicator(
-              strokeWidth: 4.0,
               color: color ?? Theme.of(context).primaryColor,
+              strokeWidth: 4.0,
             ),
           );
 
-    // Si se proporciona texto, mostrar un diseño con texto
     if (text != null) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           indicator,
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 16),
           Text(
             text!,
-            style: TextStyle(
-              fontSize: 16.0,
-              color: color ?? Colors.grey[600],
-            ),
+            style: textStyle ??
+                TextStyle(
+                  fontSize: 16,
+                  color: color ?? Colors.grey[700],
+                ),
             textAlign: TextAlign.center,
           ),
         ],
@@ -65,124 +68,85 @@ class AppLoadingIndicator extends StatelessWidget {
   }
 }
 
-/// Overlay de carga a pantalla completa
+/// Widget para pantalla completa de carga
 class FullScreenLoading extends StatelessWidget {
-  /// Mensaje para mostrar (opcional)
+  /// Mensaje a mostrar
   final String? message;
+
+  /// Color de fondo
+  final Color backgroundColor;
+
+  /// Color del indicador
+  final Color? indicatorColor;
 
   /// Información de la plataforma
   final PlatformInfo platformInfo;
 
-  /// Color de fondo del overlay
-  final Color? backgroundColor;
-
-  /// Color del indicador y texto
-  final Color? color;
-
-  /// Constructor del overlay de carga
+  /// Constructor del widget de carga a pantalla completa
   const FullScreenLoading({
     Key? key,
     this.message,
+    this.backgroundColor = Colors.white,
+    this.indicatorColor,
     required this.platformInfo,
-    this.backgroundColor,
-    this.color,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColor ?? Colors.black.withOpacity(0.5),
+      color: backgroundColor,
       child: Center(
-        child: Card(
-          elevation: 8.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 32.0,
-              horizontal: 48.0,
-            ),
-            child: AppLoadingIndicator(
-              platformInfo: platformInfo,
-              color: color,
-              text: message ?? 'Cargando...',
-            ),
-          ),
+        child: AppLoadingIndicator(
+          color: indicatorColor,
+          text: message,
+          platformInfo: platformInfo,
         ),
       ),
     );
   }
 }
 
-/// Widget que muestra un indicador de carga mientras se evalúa un futuro
-class FutureLoadingBuilder<T> extends StatelessWidget {
-  /// Futuro a evaluar
-  final Future<T> future;
+/// Widget para sobreponerse a un contenido mientras carga
+class LoadingOverlay extends StatelessWidget {
+  /// Si se debe mostrar el overlay
+  final bool isLoading;
 
-  /// Constructor para el estado completado
-  final Widget Function(BuildContext context, T data) builder;
+  /// Widget hijo a mostrar debajo del overlay
+  final Widget child;
 
-  /// Widget a mostrar mientras carga
-  final Widget? loadingWidget;
-
-  /// Constructor para el estado de error
-  final Widget Function(BuildContext context, Object? error)? errorBuilder;
+  /// Color de fondo del overlay
+  final Color barrierColor;
 
   /// Información de la plataforma
   final PlatformInfo platformInfo;
 
-  /// Constructor del builder de carga
-  const FutureLoadingBuilder({
+  /// Constructor del overlay de carga
+  const LoadingOverlay({
     Key? key,
-    required this.future,
-    required this.builder,
-    this.loadingWidget,
-    this.errorBuilder,
+    required this.isLoading,
+    required this.child,
+    this.barrierColor = Colors.black54,
     required this.platformInfo,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<T>(
-      future: future,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return loadingWidget ??
-              Center(
+    return Stack(
+      children: [
+        child,
+        if (isLoading)
+          Positioned.fill(
+            child: Container(
+              color: barrierColor,
+              child: Center(
                 child: AppLoadingIndicator(
+                  color: Colors.white,
                   platformInfo: platformInfo,
                 ),
-              );
-        } else if (snapshot.hasError) {
-          if (errorBuilder != null) {
-            return errorBuilder!(context, snapshot.error);
-          } else {
-            return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.error_outline,
-                    color: Colors.red,
-                    size: 60,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Error: ${snapshot.error}',
-                    style: const TextStyle(color: Colors.red),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
               ),
-            );
-          }
-        } else if (snapshot.hasData) {
-          return builder(context, snapshot.data as T);
-        } else {
-          return const Center(child: Text('No hay datos disponibles'));
-        }
-      },
+            ),
+          ),
+      ],
     );
   }
 }
