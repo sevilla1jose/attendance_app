@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+
 import 'package:attendance_app/core/constants/app_constants.dart';
 import 'package:attendance_app/core/errors/exceptions.dart';
 import 'package:attendance_app/core/network/supabase_client_app.dart';
@@ -5,8 +8,6 @@ import 'package:attendance_app/core/utils/geolocation_utils.dart';
 import 'package:attendance_app/data/models/attendance_model.dart';
 import 'package:attendance_app/data/models/location_model.dart';
 import 'package:attendance_app/domain/entities/attendance.dart';
-import 'package:uuid/uuid.dart';
-import 'package:flutter/foundation.dart';
 
 /// Interfaz para el acceso a datos de asistencia remotos
 abstract class AttendanceRemoteDataSource {
@@ -81,37 +82,41 @@ abstract class AttendanceRemoteDataSource {
 
 /// Implementación de [AttendanceRemoteDataSource] usando Supabase
 class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
-  final SupabaseClient supabaseClient;
+  final SupabaseClientApp supabaseClientApp;
 
-  AttendanceRemoteDataSourceImpl({required this.supabaseClient});
+  AttendanceRemoteDataSourceImpl({required this.supabaseClientApp});
 
   @override
   Future<AttendanceModel> getAttendanceById(String id) async {
     try {
-      final attendanceData =
-          await supabaseClient.getById(AppConstants.attendanceTable, id);
+      final attendanceData = await supabaseClientApp.getByIdApp(
+        AppConstants.attendanceTable,
+        id,
+      );
 
       return AttendanceModel.fromSupabase(attendanceData);
     } catch (e) {
-      throw ServerException(
-          message:
-              'Error al obtener el registro de asistencia: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al obtener el registro de asistencia: ${e.toString()}',
+      );
     }
   }
 
   @override
   Future<List<AttendanceModel>> getAllAttendanceRecords() async {
     try {
-      final attendanceData =
-          await supabaseClient.query(AppConstants.attendanceTable);
+      final attendanceData = await supabaseClientApp.queryApp(
+        AppConstants.attendanceTable,
+      );
 
       return attendanceData
           .map((data) => AttendanceModel.fromSupabase(data))
           .toList();
     } catch (e) {
-      throw ServerException(
-          message:
-              'Error al obtener todos los registros de asistencia: ${e.toString()}');
+      throw ServerExceptionApp(
+        message:
+            'Error al obtener todos los registros de asistencia: ${e.toString()}',
+      );
     }
   }
 
@@ -125,8 +130,9 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
     bool? isValid,
   }) async {
     try {
-      var query =
-          supabaseClient.client.from(AppConstants.attendanceTable).select();
+      var query = supabaseClientApp.clientApp
+          .from(AppConstants.attendanceTable)
+          .select();
 
       // Aplicar filtros
       if (userId != null) {
@@ -153,18 +159,16 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
         query = query.lte('created_at', endDate.toIso8601String());
       }
 
-      // Ordenar por fecha de creación (más reciente primero)
-      query = query.order('created_at', ascending: false);
-
       final response = await query;
 
       return (response as List)
           .map((data) => AttendanceModel.fromSupabase(data))
           .toList();
     } catch (e) {
-      throw ServerException(
-          message:
-              'Error al obtener registros de asistencia filtrados: ${e.toString()}');
+      throw ServerExceptionApp(
+        message:
+            'Error al obtener registros de asistencia filtrados: ${e.toString()}',
+      );
     }
   }
 
@@ -187,11 +191,11 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
       final photoFilename = '${userId}_${now.millisecondsSinceEpoch}_photo.jpg';
       final photoPath = '$userId/photos/$photoFilename';
 
-      final photoStoragePath = await supabaseClient.uploadFile(
+      final photoStoragePath = await supabaseClientApp.uploadFileApp(
         AppConstants.attendancePhotosBucket,
         photoPath,
         photoBytes,
-        contentType: 'image/jpeg',
+        contentTypeApp: 'image/jpeg',
       );
 
       // Subir la firma
@@ -199,11 +203,11 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
           '${userId}_${now.millisecondsSinceEpoch}_signature.png';
       final signaturePath = '$userId/signatures/$signatureFilename';
 
-      final signatureStoragePath = await supabaseClient.uploadFile(
+      final signatureStoragePath = await supabaseClientApp.uploadFileApp(
         AppConstants.signaturesBucket,
         signaturePath,
         signatureBytes,
-        contentType: 'image/png',
+        contentTypeApp: 'image/jpeg',
       );
 
       // Verificar la ubicación si se proporcionan coordenadas
@@ -239,13 +243,16 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
         'created_at': now.toIso8601String(),
       };
 
-      final response = await supabaseClient.insert(
-          AppConstants.attendanceTable, attendanceData);
+      final response = await supabaseClientApp.insertApp(
+        AppConstants.attendanceTable,
+        attendanceData,
+      );
 
       return AttendanceModel.fromSupabase(response);
     } catch (e) {
-      throw ServerException(
-          message: 'Error al crear el registro de asistencia: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al crear el registro de asistencia: ${e.toString()}',
+      );
     }
   }
 
@@ -280,11 +287,11 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
             '${userId}_${now.millisecondsSinceEpoch}_photo.jpg';
         final photoPath = '$userId/photos/$photoFilename';
 
-        final photoStoragePath = await supabaseClient.uploadFile(
+        final photoStoragePath = await supabaseClientApp.uploadFileApp(
           AppConstants.attendancePhotosBucket,
           photoPath,
           photoBytes,
-          contentType: 'image/jpeg',
+          contentTypeApp: 'image/jpeg',
         );
 
         updateData['photo_path'] = photoStoragePath;
@@ -299,11 +306,11 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
             '${userId}_${now.millisecondsSinceEpoch}_signature.png';
         final signaturePath = '$userId/signatures/$signatureFilename';
 
-        final signatureStoragePath = await supabaseClient.uploadFile(
+        final signatureStoragePath = await supabaseClientApp.uploadFileApp(
           AppConstants.signaturesBucket,
           signaturePath,
           signatureBytes,
-          contentType: 'image/png',
+          contentTypeApp: 'image/png',
         );
 
         updateData['signature_path'] = signatureStoragePath;
@@ -333,17 +340,18 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
       }
 
       // Actualizar en la base de datos
-      final response = await supabaseClient.update(
+      final response = await supabaseClientApp.updateApp(
         AppConstants.attendanceTable,
         updateData,
-        id: id,
+        idApp: id,
       );
 
       return AttendanceModel.fromSupabase(response);
     } catch (e) {
-      throw ServerException(
-          message:
-              'Error al actualizar el registro de asistencia: ${e.toString()}');
+      throw ServerExceptionApp(
+        message:
+            'Error al actualizar el registro de asistencia: ${e.toString()}',
+      );
     }
   }
 
@@ -355,7 +363,7 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
 
       // Eliminar la foto y la firma (si existen)
       try {
-        await supabaseClient.deleteFile(
+        await supabaseClientApp.deleteFileApp(
           AppConstants.attendancePhotosBucket,
           attendance.photoPath,
         );
@@ -364,7 +372,7 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
       }
 
       try {
-        await supabaseClient.deleteFile(
+        await supabaseClientApp.deleteFileApp(
           AppConstants.signaturesBucket,
           attendance.signaturePath,
         );
@@ -373,11 +381,14 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
       }
 
       // Eliminar el registro de la base de datos
-      await supabaseClient.delete(AppConstants.attendanceTable, id);
+      await supabaseClientApp.deleteApp(
+        AppConstants.attendanceTable,
+        id,
+      );
     } catch (e) {
-      throw ServerException(
-          message:
-              'Error al eliminar el registro de asistencia: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al eliminar el registro de asistencia: ${e.toString()}',
+      );
     }
   }
 
@@ -398,9 +409,10 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
         endDate: endOfDay,
       );
     } catch (e) {
-      throw ServerException(
-          message:
-              'Error al obtener registros de asistencia diarios: ${e.toString()}');
+      throw ServerExceptionApp(
+        message:
+            'Error al obtener registros de asistencia diarios: ${e.toString()}',
+      );
     }
   }
 
@@ -417,9 +429,10 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
         endDate: endDate,
       );
     } catch (e) {
-      throw ServerException(
-          message:
-              'Error al obtener registros de asistencia del período: ${e.toString()}');
+      throw ServerExceptionApp(
+        message:
+            'Error al obtener registros de asistencia del período: ${e.toString()}',
+      );
     }
   }
 
@@ -431,8 +444,10 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
   }) async {
     try {
       // Obtener la ubicación
-      final locationData =
-          await supabaseClient.getById(AppConstants.locationsTable, locationId);
+      final locationData = await supabaseClientApp.getByIdApp(
+        AppConstants.locationsTable,
+        locationId,
+      );
       final location = LocationModel.fromSupabase(locationData);
 
       // Verificar si el usuario está dentro del radio permitido
@@ -444,8 +459,9 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
         radius: location.radius,
       );
     } catch (e) {
-      throw ServerException(
-          message: 'Error al validar la ubicación: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al validar la ubicación: ${e.toString()}',
+      );
     }
   }
 
@@ -464,9 +480,9 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
 
       return true;
     } catch (e) {
-      throw ServerException(
-          message:
-              'Error al validar la identidad del usuario: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al validar la identidad del usuario: ${e.toString()}',
+      );
     }
   }
 }

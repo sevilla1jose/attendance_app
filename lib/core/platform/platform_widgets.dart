@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:attendance_app/core/platform/platform_info.dart';
 
 /// Proporciona widgets adaptados a la plataforma actual
@@ -15,7 +16,9 @@ class PlatformWidgetFactory {
     List<Widget>? actions,
     Widget? leading,
     bool automaticallyImplyLeading = true,
+    bool centerTitle = false,
     Color? backgroundColor,
+    double elevation = 8.0,
   }) {
     if (platformInfo.platform == AppPlatform.iOS) {
       return CupertinoNavigationBar(
@@ -28,7 +31,13 @@ class PlatformWidgetFactory {
             : null,
         leading: leading,
         automaticallyImplyLeading: automaticallyImplyLeading,
-        backgroundColor: backgroundColor,
+        backgroundColor: backgroundColor ?? Theme.of(context).primaryColor,
+        border: const Border(
+          bottom: BorderSide(
+            color: CupertinoColors.lightBackgroundGray,
+            width: 0.5,
+          ),
+        ),
       );
     } else {
       return AppBar(
@@ -36,7 +45,9 @@ class PlatformWidgetFactory {
         actions: actions,
         leading: leading,
         automaticallyImplyLeading: automaticallyImplyLeading,
-        backgroundColor: backgroundColor,
+        elevation: elevation,
+        centerTitle: centerTitle,
+        backgroundColor: backgroundColor ?? Theme.of(context).primaryColor,
       );
     }
   }
@@ -272,7 +283,7 @@ class PlatformWidgetFactory {
       return CupertinoSwitch(
         value: value,
         onChanged: onChanged,
-        activeColor: activeColor,
+        activeTrackColor: activeColor,
       );
     } else {
       return Switch(

@@ -17,7 +17,7 @@ class AppConstants {
   // Configuración de geolocalización
   static const int maxLocationAgeInMinutes = 1;
   static const double locationAccuracyInMeters = 50.0;
-  static const int locationValidityRadiusInMeters = 100;
+  static const double locationValidityRadiusInMeters = 100;
 
   // Tiempos de espera
   static const int networkTimeoutInSeconds = 30;

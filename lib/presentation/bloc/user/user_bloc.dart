@@ -1,9 +1,10 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:attendance_app/domain/entities/user.dart';
 import 'package:attendance_app/domain/usecases/user/add_user.dart';
 import 'package:attendance_app/domain/usecases/user/get_users.dart';
 import 'package:attendance_app/domain/usecases/user/update_user.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:attendance_app/domain/entities/user.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
@@ -39,7 +40,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   ) async {
     emit(UserLoading());
 
-    final result = await getUsers(Params.all());
+    final result = await getUsers(GetUsersParams.all());
 
     result.fold(
       (failure) => emit(UserError(message: failure.message)),
@@ -55,7 +56,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     emit(UserLoading());
 
     final result = await getUsers(
-      Params(
+      GetUsersParams(
         role: event.role,
         isActive: event.isActive,
         searchQuery: event.searchQuery,
@@ -76,7 +77,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     emit(UserLoading());
 
     final result = await addUser(
-      Params(
+      AddUserParams(
         name: event.name,
         email: event.email,
         password: event.password,
@@ -91,7 +92,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (failure) => emit(UserError(message: failure.message)),
       (user) async {
         // Recargar la lista de usuarios
-        final usersResult = await getUsers(Params.all());
+        final usersResult = await getUsers(GetUsersParams.all());
 
         usersResult.fold(
           (failure) => emit(UserError(message: failure.message)),
@@ -109,7 +110,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     emit(UserLoading());
 
     final result = await updateUser(
-      Params(
+      UpdateUserParams(
         id: event.id,
         name: event.name,
         email: event.email,
@@ -125,7 +126,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (failure) => emit(UserError(message: failure.message)),
       (user) async {
         // Recargar la lista de usuarios
-        final usersResult = await getUsers(Params.all());
+        final usersResult = await getUsers(GetUsersParams.all());
 
         usersResult.fold(
           (failure) => emit(UserError(message: failure.message)),

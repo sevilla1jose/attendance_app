@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+
 import 'package:attendance_app/core/errors/exceptions.dart';
 import 'package:attendance_app/core/errors/failures.dart';
 import 'package:attendance_app/core/network/network_info.dart';
@@ -32,7 +33,7 @@ class LocationRepositoryImpl implements LocationRepository {
           await localDataSource.createLocation(location);
 
           return Right(location);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           // Si falla, intentar obtener desde la fuente local
           return Left(ServerFailure(message: e.message));
         }
@@ -46,7 +47,7 @@ class LocationRepositoryImpl implements LocationRepository {
       } else {
         return Left(NotFoundFailure('Ubicación no encontrada'));
       }
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -75,7 +76,7 @@ class LocationRepositoryImpl implements LocationRepository {
       // Obtener desde la fuente local
       final locations = await localDataSource.getAllLocations();
       return Right(locations);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -114,7 +115,7 @@ class LocationRepositoryImpl implements LocationRepository {
       );
 
       return Right(locations);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -145,7 +146,7 @@ class LocationRepositoryImpl implements LocationRepository {
 
           // Guardar en la caché local
           await localDataSource.createLocation(location);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           return Left(ServerFailure(message: e.message));
         }
       } else {
@@ -169,7 +170,7 @@ class LocationRepositoryImpl implements LocationRepository {
       }
 
       return Right(location);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -204,7 +205,7 @@ class LocationRepositoryImpl implements LocationRepository {
 
           // Actualizar en la caché local
           await localDataSource.updateLocation(location);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           return Left(ServerFailure(message: e.message));
         }
       } else {
@@ -232,7 +233,7 @@ class LocationRepositoryImpl implements LocationRepository {
       }
 
       return Right(location);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -246,7 +247,7 @@ class LocationRepositoryImpl implements LocationRepository {
         try {
           // Eliminar en el servidor
           await remoteDataSource.deleteLocation(id);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           return Left(ServerFailure(message: e.message));
         }
       }
@@ -254,7 +255,7 @@ class LocationRepositoryImpl implements LocationRepository {
       // Eliminar localmente (incluso si la operación remota falla)
       try {
         await localDataSource.deleteLocation(id);
-      } on DatabaseException catch (e) {
+      } on DatabaseExceptionApp catch (e) {
         return Left(DatabaseFailure(e.message));
       }
 
@@ -286,7 +287,7 @@ class LocationRepositoryImpl implements LocationRepository {
       final locations = await localDataSource.searchLocations(query);
 
       return Right(locations);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -322,7 +323,7 @@ class LocationRepositoryImpl implements LocationRepository {
       );
 
       return Right(locations);
-    } on LocationException catch (e) {
+    } on LocationExceptionApp catch (e) {
       return Left(LocationFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());

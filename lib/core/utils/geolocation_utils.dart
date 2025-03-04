@@ -11,7 +11,11 @@ class GeolocationUtils {
   /// [lat1], [lon1]: Coordenadas del primer punto
   /// [lat2], [lon2]: Coordenadas del segundo punto
   static double calculateDistance(
-      double lat1, double lon1, double lat2, double lon2) {
+    double lat1,
+    double lon1,
+    double lat2,
+    double lon2,
+  ) {
     // Convertir a radianes
     final dLat = _toRadians(lat2 - lat1);
     final dLon = _toRadians(lon2 - lon1);

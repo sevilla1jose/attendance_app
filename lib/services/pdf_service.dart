@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:attendance_app/domain/entities/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pdf/pdf.dart';
@@ -153,7 +152,7 @@ class PdfServiceImpl implements PdfService {
                     fontWeight: pw.FontWeight.bold,
                   ),
                 ),
-                if (reportSubtitle != null) ...[
+                ...[
                   pw.SizedBox(height: 5),
                   pw.Text(
                     reportSubtitle,
@@ -191,7 +190,6 @@ class PdfServiceImpl implements PdfService {
               pw.Header(
                 level: 1,
                 text: 'Asistentes',
-                outlineStyle: pw.PdfOutlineStyle.italic,
               ),
               pw.SizedBox(height: 10),
               if (userRecords.isEmpty) ...[
@@ -227,7 +225,6 @@ class PdfServiceImpl implements PdfService {
               pw.Header(
                 level: 1,
                 text: 'Ausentes',
-                outlineStyle: pw.PdfOutlineStyle.italic,
               ),
               pw.SizedBox(height: 10),
               if (absentees.isEmpty) ...[
@@ -276,7 +273,7 @@ class PdfServiceImpl implements PdfService {
       return pdf.save();
     } catch (e) {
       debugPrint('Error al generar el reporte diario: $e');
-      throw ReportException(
+      throw ReportExceptionApp(
           'Error al generar el reporte diario: ${e.toString()}');
     }
   }
@@ -311,7 +308,7 @@ class PdfServiceImpl implements PdfService {
       );
     } catch (e) {
       debugPrint('Error al generar el reporte semanal: $e');
-      throw ReportException(
+      throw ReportExceptionApp(
           'Error al generar el reporte semanal: ${e.toString()}');
     }
   }
@@ -333,7 +330,6 @@ class PdfServiceImpl implements PdfService {
 
       // Por ahora, este es un placeholder
       final startOfMonth = DateTime(month.year, month.month, 1);
-      final endOfMonth = DateTime(month.year, month.month + 1, 0);
 
       return generateDailyAttendanceReport(
         date: startOfMonth,
@@ -347,7 +343,7 @@ class PdfServiceImpl implements PdfService {
       );
     } catch (e) {
       debugPrint('Error al generar el reporte mensual: $e');
-      throw ReportException(
+      throw ReportExceptionApp(
           'Error al generar el reporte mensual: ${e.toString()}');
     }
   }
@@ -397,7 +393,7 @@ class PdfServiceImpl implements PdfService {
       );
     } catch (e) {
       debugPrint('Error al generar el reporte personalizado: $e');
-      throw ReportException(
+      throw ReportExceptionApp(
           'Error al generar el reporte personalizado: ${e.toString()}');
     }
   }
@@ -410,7 +406,7 @@ class PdfServiceImpl implements PdfService {
       );
     } catch (e) {
       debugPrint('Error al imprimir el PDF: $e');
-      throw ReportException('Error al imprimir el PDF: ${e.toString()}');
+      throw ReportExceptionApp('Error al imprimir el PDF: ${e.toString()}');
     }
   }
 
@@ -423,7 +419,8 @@ class PdfServiceImpl implements PdfService {
       );
     } catch (e) {
       debugPrint('Error al previsualizar el PDF: $e');
-      throw ReportException('Error al previsualizar el PDF: ${e.toString()}');
+      throw ReportExceptionApp(
+          'Error al previsualizar el PDF: ${e.toString()}');
     }
   }
 

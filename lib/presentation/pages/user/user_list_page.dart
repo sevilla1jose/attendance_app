@@ -113,20 +113,20 @@ class _UserListPageState extends State<UserListPage> {
                           EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                     ),
                     value: _selectedRole,
-                    items: [
-                      const DropdownMenuItem<UserRole?>(
+                    items: const [
+                      DropdownMenuItem<UserRole?>(
                         value: null,
                         child: Text('Todos'),
                       ),
-                      const DropdownMenuItem<UserRole?>(
+                      DropdownMenuItem<UserRole?>(
                         value: UserRole.admin,
                         child: Text('Administrador'),
                       ),
-                      const DropdownMenuItem<UserRole?>(
+                      DropdownMenuItem<UserRole?>(
                         value: UserRole.supervisor,
                         child: Text('Supervisor'),
                       ),
-                      const DropdownMenuItem<UserRole?>(
+                      DropdownMenuItem<UserRole?>(
                         value: UserRole.assistant,
                         child: Text('Asistente'),
                       ),

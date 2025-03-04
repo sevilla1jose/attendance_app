@@ -7,7 +7,6 @@ import 'package:attendance_app/core/platform/platform_info.dart';
 import 'package:attendance_app/domain/entities/report.dart';
 import 'package:attendance_app/presentation/bloc/report/report_bloc.dart';
 import 'package:attendance_app/presentation/widgets/common/app_bar.dart';
-import 'package:attendance_app/presentation/widgets/common/loading_indicator.dart';
 import 'package:attendance_app/presentation/widgets/common/snackbar.dart';
 
 /// Página de detalle de un reporte

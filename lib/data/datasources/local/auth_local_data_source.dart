@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:attendance_app/core/constants/app_constants.dart';
 import 'package:attendance_app/core/errors/exceptions.dart';
@@ -37,14 +38,17 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     try {
       // Guardar el token
       await sharedPreferences.setString(
-          AppConstants.userTokenKey, auth.accessToken);
+        AppConstants.userTokenKey,
+        auth.accessToken,
+      );
 
       // Guardar el modelo completo de autenticación
       final authJson = json.encode(auth.toJson());
       await sharedPreferences.setString(AppConstants.userDataKey, authJson);
     } catch (e) {
-      throw DatabaseException(
-          'Error al guardar los datos de autenticación: $e');
+      throw DatabaseExceptionApp(
+        'Error al guardar los datos de autenticación: $e',
+      );
     }
   }
 
@@ -60,7 +64,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       final authMap = json.decode(authJson) as Map<String, dynamic>;
       return AuthModel.fromJson(authMap);
     } catch (e) {
-      throw DatabaseException(
+      throw DatabaseExceptionApp(
           'Error al obtener los datos de autenticación: $e');
     }
   }
@@ -71,7 +75,8 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       await sharedPreferences.remove(AppConstants.userTokenKey);
       await sharedPreferences.remove(AppConstants.userDataKey);
     } catch (e) {
-      throw DatabaseException('Error al borrar los datos de autenticación: $e');
+      throw DatabaseExceptionApp(
+          'Error al borrar los datos de autenticación: $e');
     }
   }
 
@@ -80,7 +85,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     try {
       return sharedPreferences.getString(AppConstants.userTokenKey);
     } catch (e) {
-      throw DatabaseException('Error al obtener el token: $e');
+      throw DatabaseExceptionApp('Error al obtener el token: $e');
     }
   }
 
@@ -90,7 +95,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       final userJson = json.encode(user.toJson());
       await sharedPreferences.setString('current_user', userJson);
     } catch (e) {
-      throw DatabaseException('Error al guardar el usuario actual: $e');
+      throw DatabaseExceptionApp('Error al guardar el usuario actual: $e');
     }
   }
 
@@ -106,7 +111,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       final userMap = json.decode(userJson) as Map<String, dynamic>;
       return UserModel.fromJson(userMap);
     } catch (e) {
-      throw DatabaseException('Error al obtener el usuario actual: $e');
+      throw DatabaseExceptionApp('Error al obtener el usuario actual: $e');
     }
   }
 }

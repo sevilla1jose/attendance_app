@@ -1,9 +1,10 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'package:attendance_app/core/constants/app_constants.dart';
 import 'package:attendance_app/core/errors/exceptions.dart';
 import 'package:attendance_app/core/network/supabase_client_app.dart';
 import 'package:attendance_app/data/models/user_model.dart';
 import 'package:attendance_app/domain/entities/user.dart';
-import 'package:uuid/uuid.dart';
 
 /// Interfaz para el acceso a datos de usuarios remotos
 abstract class UserRemoteDataSource {
@@ -24,7 +25,7 @@ abstract class UserRemoteDataSource {
   Future<UserModel> createUser({
     required String name,
     required String email,
-    required String password,
+    required String passwordIn,
     required UserRole role,
     String? phone,
     String? identification,
@@ -64,7 +65,7 @@ abstract class UserRemoteDataSource {
 
 /// Implementación de [UserRemoteDataSource] usando Supabase
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
-  final SupabaseClient supabaseClient;
+  final SupabaseClientApp supabaseClient;
 
   UserRemoteDataSourceImpl({required this.supabaseClient});
 
@@ -72,26 +73,28 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<UserModel> getUserById(String id) async {
     try {
       final userData =
-          await supabaseClient.getById(AppConstants.usersTable, id);
+          await supabaseClient.getByIdApp(AppConstants.usersTable, id);
 
       return UserModel.fromSupabase(userData);
     } catch (e) {
-      throw ServerException(
-          message: 'Error al obtener el usuario: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al obtener el usuario: ${e.toString()}',
+      );
     }
   }
 
   @override
   Future<List<UserModel>> getAllUsers() async {
     try {
-      final usersData = await supabaseClient.query(AppConstants.usersTable);
+      final usersData = await supabaseClient.queryApp(AppConstants.usersTable);
 
       return usersData
           .map((userData) => UserModel.fromSupabase(userData))
           .toList();
     } catch (e) {
-      throw ServerException(
-          message: 'Error al obtener todos los usuarios: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al obtener todos los usuarios: ${e.toString()}',
+      );
     }
   }
 
@@ -117,7 +120,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         }
       }
 
-      var query = supabaseClient.client.from(AppConstants.usersTable).select();
+      var query = supabaseClient.clientApp
+          .from(
+            AppConstants.usersTable,
+          )
+          .select();
 
       // Aplicar filtros de igualdad
       if (equals != null) {
@@ -132,17 +139,15 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
             query.or('name.ilike.%$searchQuery%,email.ilike.%$searchQuery%');
       }
 
-      // Ordenar por nombre
-      query = query.order('name', ascending: true);
-
       final response = await query;
 
       return (response as List)
           .map((userData) => UserModel.fromSupabase(userData))
           .toList();
     } catch (e) {
-      throw ServerException(
-          message: 'Error al obtener usuarios filtrados: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al obtener usuarios filtrados: ${e.toString()}',
+      );
     }
   }
 
@@ -150,7 +155,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<UserModel> createUser({
     required String name,
     required String email,
-    required String password,
+    required String passwordIn,
     required UserRole role,
     String? phone,
     String? identification,
@@ -158,16 +163,18 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }) async {
     try {
       // Crear el usuario en la autenticación de Supabase
-      final authResponse = await supabaseClient.client.auth.admin.createUser(
-        attributes: {
-          'email': email,
-          'password': password,
-          'email_confirm': true,
-        },
+      final authResponse = await supabaseClient.clientApp.auth.admin.createUser(
+        AdminUserAttributes(
+          email: email,
+          password: passwordIn,
+          emailConfirm: true,
+        ),
       );
 
       if (authResponse.user == null) {
-        throw ServerException(message: 'Error al crear la cuenta de usuario');
+        throw ServerExceptionApp(
+          message: 'Error al crear la cuenta de usuario',
+        );
       }
 
       final userId = authResponse.user!.id;
@@ -188,13 +195,16 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         'updated_at': now.toIso8601String(),
       };
 
-      final response =
-          await supabaseClient.insert(AppConstants.usersTable, userData);
+      final response = await supabaseClient.insertApp(
+        AppConstants.usersTable,
+        userData,
+      );
 
       return UserModel.fromSupabase(response);
     } catch (e) {
-      throw ServerException(
-          message: 'Error al crear el usuario: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al crear el usuario: ${e.toString()}',
+      );
     }
   }
 
@@ -210,9 +220,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     bool? isActive,
   }) async {
     try {
-      // Obtener los datos actuales del usuario
-      final currentUser = await getUserById(id);
-
       // Preparar los datos a actualizar
       final updateData = <String, dynamic>{
         'updated_at': DateTime.now().toIso8601String(),
@@ -222,22 +229,28 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       if (email != null) updateData['email'] = email;
       if (role != null) updateData['role'] = role.value;
       if (phone != null) updateData['phone'] = phone;
-      if (identification != null) updateData['identification'] = identification;
-      if (profilePicture != null)
+      if (identification != null) {
+        updateData['identification'] = identification;
+      }
+      if (profilePicture != null) {
         updateData['profile_picture'] = profilePicture;
-      if (isActive != null) updateData['is_active'] = isActive;
+      }
+      if (isActive != null) {
+        updateData['is_active'] = isActive;
+      }
 
       // Actualizar en la base de datos
-      final response = await supabaseClient.update(
+      final response = await supabaseClient.updateApp(
         AppConstants.usersTable,
         updateData,
-        id: id,
+        idApp: id,
       );
 
       return UserModel.fromSupabase(response);
     } catch (e) {
-      throw ServerException(
-          message: 'Error al actualizar el usuario: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al actualizar el usuario: ${e.toString()}',
+      );
     }
   }
 
@@ -248,15 +261,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }) async {
     try {
       // Cambiar la contraseña del usuario
-      await supabaseClient.client.auth.admin.updateUserById(
+      await supabaseClient.clientApp.auth.admin.updateUserById(
         id,
-        attributes: {
-          'password': newPassword,
-        },
+        attributes: AdminUserAttributes(password: newPassword),
       );
     } catch (e) {
-      throw ServerException(
-          message: 'Error al cambiar la contraseña: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al cambiar la contraseña: ${e.toString()}',
+      );
     }
   }
 
@@ -264,13 +276,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<void> deleteUser(String id) async {
     try {
       // Eliminar el usuario de la base de datos
-      await supabaseClient.delete(AppConstants.usersTable, id);
+      await supabaseClient.deleteApp(AppConstants.usersTable, id);
 
       // Eliminar el usuario de la autenticación
-      await supabaseClient.client.auth.admin.deleteUser(id);
+      await supabaseClient.clientApp.auth.admin.deleteUser(id);
     } catch (e) {
-      throw ServerException(
-          message: 'Error al eliminar el usuario: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al eliminar el usuario: ${e.toString()}',
+      );
     }
   }
 
@@ -281,7 +294,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         return await getAllUsers();
       }
 
-      final response = await supabaseClient.client
+      final response = await supabaseClient.clientApp
           .from(AppConstants.usersTable)
           .select()
           .or('name.ilike.%$query%,email.ilike.%$query%')
@@ -291,8 +304,9 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
           .map((userData) => UserModel.fromSupabase(userData))
           .toList();
     } catch (e) {
-      throw ServerException(
-          message: 'Error al buscar usuarios: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al buscar usuarios: ${e.toString()}',
+      );
     }
   }
 
@@ -307,15 +321,15 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final path = '$userId/$filename';
 
       // Subir la imagen al storage
-      final imagePath = await supabaseClient.uploadFile(
+      final imagePath = await supabaseClient.uploadFileApp(
         AppConstants.profileImagesBucket,
         path,
         imageBytes,
-        contentType: 'image/jpeg',
+        contentTypeApp: 'image/jpeg',
       );
 
       // Obtener la URL pública de la imagen
-      final imageUrl = supabaseClient.getPublicUrl(
+      final imageUrl = supabaseClient.getPublicUrlApp(
         AppConstants.profileImagesBucket,
         imagePath,
       );
@@ -328,8 +342,9 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
       return imageUrl;
     } catch (e) {
-      throw ServerException(
-          message: 'Error al actualizar la foto de perfil: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al actualizar la foto de perfil: ${e.toString()}',
+      );
     }
   }
 }

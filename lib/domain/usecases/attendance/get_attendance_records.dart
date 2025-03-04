@@ -15,7 +15,8 @@ class GetAttendanceRecords {
   /// [params] - Parámetros opcionales para filtrar registros de asistencia
   ///
   /// Retorna la lista de registros que coinciden con los filtros
-  Future<Either<Failure, List<Attendance>>> call(Params params) async {
+  Future<Either<Failure, List<Attendance>>> call(
+      GetAttendanceRecordsParams params) async {
     return await repository.getAttendanceRecords(
       userId: params.userId,
       locationId: params.locationId,
@@ -28,7 +29,7 @@ class GetAttendanceRecords {
 }
 
 /// Parámetros para el caso de uso GetAttendanceRecords
-class Params extends Equatable {
+class GetAttendanceRecordsParams extends Equatable {
   final String? userId;
   final String? locationId;
   final AttendanceType? type;
@@ -36,7 +37,7 @@ class Params extends Equatable {
   final DateTime? endDate;
   final bool? isValid;
 
-  const Params({
+  const GetAttendanceRecordsParams({
     this.userId,
     this.locationId,
     this.type,
@@ -46,14 +47,14 @@ class Params extends Equatable {
   });
 
   /// Constructor para obtener registros de un usuario específico para un día
-  factory Params.forUserAndDay({
+  factory GetAttendanceRecordsParams.forUserAndDay({
     required String userId,
     required DateTime date,
   }) {
     final startOfDay = DateTime(date.year, date.month, date.day);
     final endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
 
-    return Params(
+    return GetAttendanceRecordsParams(
       userId: userId,
       startDate: startOfDay,
       endDate: endOfDay,
@@ -61,7 +62,8 @@ class Params extends Equatable {
   }
 
   /// Constructor para obtener todos los registros sin filtros
-  factory Params.all() => const Params();
+  factory GetAttendanceRecordsParams.all() =>
+      const GetAttendanceRecordsParams();
 
   @override
   List<Object?> get props => [

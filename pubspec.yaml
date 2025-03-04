@@ -78,6 +78,7 @@ dependencies:
   permission_handler: ^10.4.3
   device_info_plus: ^9.0.2
   package_info_plus: ^4.0.2
+  injectable: ^2.5.0
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +90,7 @@ dev_dependencies:
   golden_toolkit: ^0.15.0
   integration_test:
     sdk: flutter
+  injectable_generator: ^2.6.2
 
 flutter:
   uses-material-design: true

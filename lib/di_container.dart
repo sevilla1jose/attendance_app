@@ -184,7 +184,7 @@ Future<void> init() async {
   );
 
   sl.registerLazySingleton<AttendanceRemoteDataSource>(
-    () => AttendanceRemoteDataSourceImpl(supabaseClient: sl()),
+    () => AttendanceRemoteDataSourceImpl(supabaseClientApp: sl()),
   );
 
   // Local
@@ -197,7 +197,10 @@ Future<void> init() async {
   );
 
   sl.registerLazySingleton<LocationLocalDataSource>(
-    () => LocationLocalDataSourceImpl(databaseHelper: sl()),
+    () => LocationLocalDataSourceImpl(
+      databaseHelper: sl(),
+      geolocationUtils: sl(),
+    ),
   );
 
   sl.registerLazySingleton<AttendanceLocalDataSource>(
@@ -207,7 +210,7 @@ Future<void> init() async {
   //! Core
   sl.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(connectivity: sl()));
-  sl.registerLazySingleton<SupabaseClientApp>(() => SupabaseClientImpl());
+  sl.registerLazySingleton<SupabaseClientApp>(() => SupabaseClientAppImpl());
   sl.registerLazySingleton<PlatformInfo>(() => PlatformInfoImpl());
 
   //! Database

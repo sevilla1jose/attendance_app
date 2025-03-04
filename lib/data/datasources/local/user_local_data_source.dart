@@ -1,8 +1,9 @@
+import 'package:uuid/uuid.dart';
+
 import 'package:attendance_app/core/errors/exceptions.dart';
 import 'package:attendance_app/data/datasources/local/database_helper.dart';
 import 'package:attendance_app/data/models/user_model.dart';
 import 'package:attendance_app/domain/entities/user.dart';
-import 'package:uuid/uuid.dart';
 
 /// Interfaz para el acceso a datos de usuarios almacenados localmente
 abstract class UserLocalDataSource {
@@ -55,7 +56,8 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
 
       return UserModel.fromJson(userData);
     } catch (e) {
-      throw DatabaseException('Error al obtener el usuario: ${e.toString()}');
+      throw DatabaseExceptionApp(
+          'Error al obtener el usuario: ${e.toString()}');
     }
   }
 
@@ -66,7 +68,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
 
       return usersData.map((userData) => UserModel.fromJson(userData)).toList();
     } catch (e) {
-      throw DatabaseException(
+      throw DatabaseExceptionApp(
           'Error al obtener todos los usuarios: ${e.toString()}');
     }
   }
@@ -114,7 +116,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
 
       return usersData.map((userData) => UserModel.fromJson(userData)).toList();
     } catch (e) {
-      throw DatabaseException(
+      throw DatabaseExceptionApp(
           'Error al obtener usuarios filtrados: ${e.toString()}');
     }
   }
@@ -138,7 +140,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
 
       return userToCreate;
     } catch (e) {
-      throw DatabaseException('Error al crear el usuario: ${e.toString()}');
+      throw DatabaseExceptionApp('Error al crear el usuario: ${e.toString()}');
     }
   }
 
@@ -156,7 +158,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
 
       return userToUpdate;
     } catch (e) {
-      throw DatabaseException(
+      throw DatabaseExceptionApp(
           'Error al actualizar el usuario: ${e.toString()}');
     }
   }
@@ -166,7 +168,8 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
     try {
       await databaseHelper.delete('users', id);
     } catch (e) {
-      throw DatabaseException('Error al eliminar el usuario: ${e.toString()}');
+      throw DatabaseExceptionApp(
+          'Error al eliminar el usuario: ${e.toString()}');
     }
   }
 
@@ -186,7 +189,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
 
       return usersData.map((userData) => UserModel.fromJson(userData)).toList();
     } catch (e) {
-      throw DatabaseException('Error al buscar usuarios: ${e.toString()}');
+      throw DatabaseExceptionApp('Error al buscar usuarios: ${e.toString()}');
     }
   }
 
@@ -201,7 +204,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
 
       return usersData.map((userData) => UserModel.fromJson(userData)).toList();
     } catch (e) {
-      throw DatabaseException(
+      throw DatabaseExceptionApp(
           'Error al obtener usuarios pendientes de sincronización: ${e.toString()}');
     }
   }
@@ -215,7 +218,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
         id,
       );
     } catch (e) {
-      throw DatabaseException(
+      throw DatabaseExceptionApp(
           'Error al marcar el usuario como sincronizado: ${e.toString()}');
     }
   }

@@ -1,8 +1,9 @@
+import 'package:uuid/uuid.dart';
+
 import 'package:attendance_app/core/errors/exceptions.dart';
 import 'package:attendance_app/data/datasources/local/database_helper.dart';
 import 'package:attendance_app/data/models/attendance_model.dart';
 import 'package:attendance_app/domain/entities/attendance.dart';
-import 'package:uuid/uuid.dart';
 
 /// Interfaz para el acceso a datos de asistencia almacenados localmente
 abstract class AttendanceLocalDataSource {
@@ -60,8 +61,10 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
   @override
   Future<AttendanceModel?> getAttendanceById(String id) async {
     try {
-      final attendanceData =
-          await databaseHelper.getById('attendance_records', id);
+      final attendanceData = await databaseHelper.getById(
+        'attendance_records',
+        id,
+      );
 
       if (attendanceData == null) {
         return null;
@@ -69,8 +72,9 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
 
       return AttendanceModel.fromJson(attendanceData);
     } catch (e) {
-      throw DatabaseException(
-          'Error al obtener el registro de asistencia: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al obtener el registro de asistencia: ${e.toString()}',
+      );
     }
   }
 
@@ -83,8 +87,9 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
           .map((data) => AttendanceModel.fromJson(data))
           .toList();
     } catch (e) {
-      throw DatabaseException(
-          'Error al obtener todos los registros de asistencia: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al obtener todos los registros de asistencia: ${e.toString()}',
+      );
     }
   }
 
@@ -148,8 +153,9 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
           .map((data) => AttendanceModel.fromJson(data))
           .toList();
     } catch (e) {
-      throw DatabaseException(
-          'Error al obtener registros de asistencia filtrados: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al obtener registros de asistencia filtrados: ${e.toString()}',
+      );
     }
   }
 
@@ -170,18 +176,22 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
 
       // Insertar en la base de datos
       await databaseHelper.insert(
-          'attendance_records', attendanceToCreate.toJson());
+        'attendance_records',
+        attendanceToCreate.toJson(),
+      );
 
       return attendanceToCreate;
     } catch (e) {
-      throw DatabaseException(
-          'Error al crear el registro de asistencia: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al crear el registro de asistencia: ${e.toString()}',
+      );
     }
   }
 
   @override
   Future<AttendanceModel> updateAttendanceRecord(
-      AttendanceModel attendance) async {
+    AttendanceModel attendance,
+  ) async {
     try {
       // Preparar el modelo para la actualización
       final attendanceToUpdate = attendance.copyWith(
@@ -194,8 +204,9 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
 
       return attendanceToUpdate;
     } catch (e) {
-      throw DatabaseException(
-          'Error al actualizar el registro de asistencia: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al actualizar el registro de asistencia: ${e.toString()}',
+      );
     }
   }
 
@@ -204,8 +215,9 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
     try {
       await databaseHelper.delete('attendance_records', id);
     } catch (e) {
-      throw DatabaseException(
-          'Error al eliminar el registro de asistencia: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al eliminar el registro de asistencia: ${e.toString()}',
+      );
     }
   }
 
@@ -216,9 +228,21 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
   }) async {
     try {
       // Obtener el inicio y fin del día
-      final startOfDay = DateTime(date.year, date.month, date.day);
-      final endOfDay =
-          DateTime(date.year, date.month, date.day, 23, 59, 59, 999);
+      final startOfDay = DateTime(
+        date.year,
+        date.month,
+        date.day,
+      );
+
+      final endOfDay = DateTime(
+        date.year,
+        date.month,
+        date.day,
+        23,
+        59,
+        59,
+        999,
+      );
 
       // Construir la consulta
       final attendanceData = await databaseHelper.query(
@@ -236,8 +260,9 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
           .map((data) => AttendanceModel.fromJson(data))
           .toList();
     } catch (e) {
-      throw DatabaseException(
-          'Error al obtener registros de asistencia diarios: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al obtener registros de asistencia diarios: ${e.toString()}',
+      );
     }
   }
 
@@ -264,8 +289,9 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
           .map((data) => AttendanceModel.fromJson(data))
           .toList();
     } catch (e) {
-      throw DatabaseException(
-          'Error al obtener registros de asistencia del período: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al obtener registros de asistencia del período: ${e.toString()}',
+      );
     }
   }
 
@@ -282,8 +308,9 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
           .map((data) => AttendanceModel.fromJson(data))
           .toList();
     } catch (e) {
-      throw DatabaseException(
-          'Error al obtener registros de asistencia pendientes de sincronización: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al obtener registros de asistencia pendientes de sincronización: ${e.toString()}',
+      );
     }
   }
 
@@ -296,8 +323,9 @@ class AttendanceLocalDataSourceImpl implements AttendanceLocalDataSource {
         id,
       );
     } catch (e) {
-      throw DatabaseException(
-          'Error al marcar el registro de asistencia como sincronizado: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al marcar el registro de asistencia como sincronizado: ${e.toString()}',
+      );
     }
   }
 }

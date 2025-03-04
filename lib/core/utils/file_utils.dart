@@ -11,17 +11,17 @@ import 'package:universal_html/html.dart' as html;
 /// Utilidades para el manejo de archivos
 class FileUtils {
   /// Obtiene un directorio temporal para guardar archivos
-  static Future<String> getTemporaryDirectory() async {
+  static Future<String> getTemporaryDirectoryApp() async {
     if (kIsWeb) {
       return '';
     }
 
-    final directory = await getTemporaryDirectoryPath();
+    final directory = await getTemporaryDirectoryPathApp();
     return directory;
   }
 
   /// Obtiene la ruta del directorio temporal
-  static Future<String> getTemporaryDirectoryPath() async {
+  static Future<String> getTemporaryDirectoryPathApp() async {
     if (kIsWeb) {
       return '';
     }

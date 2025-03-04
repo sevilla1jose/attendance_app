@@ -15,7 +15,8 @@ class ValidateAttendanceLocation {
   /// [params] - Parámetros necesarios para validar la ubicación
   ///
   /// Retorna true si la ubicación es válida, false en caso contrario
-  Future<Either<Failure, bool>> call(Params params) async {
+  Future<Either<Failure, bool>> call(
+      ValidateAttendanceLocationParams params) async {
     return await repository.validateAttendanceLocation(
       locationId: params.locationId,
       userLatitude: params.userLatitude,
@@ -25,12 +26,12 @@ class ValidateAttendanceLocation {
 }
 
 /// Parámetros para el caso de uso ValidateAttendanceLocation
-class Params extends Equatable {
+class ValidateAttendanceLocationParams extends Equatable {
   final String locationId;
   final double userLatitude;
   final double userLongitude;
 
-  const Params({
+  const ValidateAttendanceLocationParams({
     required this.locationId,
     required this.userLatitude,
     required this.userLongitude,

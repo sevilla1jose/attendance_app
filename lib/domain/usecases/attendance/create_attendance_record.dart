@@ -15,7 +15,8 @@ class CreateAttendanceRecord {
   /// [params] - Parámetros necesarios para crear un registro de asistencia
   ///
   /// Retorna el registro creado si la operación es exitosa
-  Future<Either<Failure, Attendance>> call(Params params) async {
+  Future<Either<Failure, Attendance>> call(
+      CreateAttendanceRecordParams params) async {
     return await repository.createAttendanceRecord(
       userId: params.userId,
       locationId: params.locationId,
@@ -29,7 +30,7 @@ class CreateAttendanceRecord {
 }
 
 /// Parámetros para el caso de uso CreateAttendanceRecord
-class Params extends Equatable {
+class CreateAttendanceRecordParams extends Equatable {
   final String userId;
   final String locationId;
   final AttendanceType type;
@@ -38,7 +39,7 @@ class Params extends Equatable {
   final double? latitude;
   final double? longitude;
 
-  const Params({
+  const CreateAttendanceRecordParams({
     required this.userId,
     required this.locationId,
     required this.type,

@@ -30,6 +30,7 @@ class UserModel extends User {
         );
 
   /// Crea una copia del modelo con algunos campos modificados
+  @override
   UserModel copyWith({
     String? id,
     String? name,

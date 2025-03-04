@@ -49,8 +49,9 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   ) async {
     emit(AttendanceLoading());
 
-    final result =
-        await getAttendanceRecords(GetAttendanceRecords.Params.all());
+    final result = await getAttendanceRecords(
+      GetAttendanceRecordsParams.all(),
+    );
 
     result.fold(
       (failure) => emit(AttendanceError(message: failure.message)),
@@ -66,7 +67,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     emit(AttendanceLoading());
 
     final result = await getAttendanceRecords(
-      GetAttendanceRecords.Params(
+      GetAttendanceRecordsParams(
         userId: event.userId,
         locationId: event.locationId,
         type: event.type,
@@ -90,7 +91,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     emit(AttendanceLoading());
 
     final result = await validateAttendanceLocation(
-      ValidateAttendanceLocation.Params(
+      ValidateAttendanceLocationParams(
         locationId: event.locationId,
         userLatitude: event.userLatitude,
         userLongitude: event.userLongitude,
@@ -153,7 +154,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     emit(AttendanceLoading());
 
     final result = await createAttendanceRecord(
-      CreateAttendanceRecord.Params(
+      CreateAttendanceRecordParams(
         userId: event.userId,
         locationId: event.locationId,
         type: event.type,
@@ -178,7 +179,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     emit(AttendanceLoading());
 
     final result = await getAttendanceRecords(
-      GetAttendanceRecords.Params.forUserAndDay(
+      GetAttendanceRecordsParams.forUserAndDay(
         userId: event.userId,
         date: event.date,
       ),

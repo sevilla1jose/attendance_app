@@ -15,7 +15,7 @@ class AddUser {
   /// [params] - Parámetros necesarios para crear un usuario
   ///
   /// Retorna el usuario creado si la operación es exitosa
-  Future<Either<Failure, User>> call(Params params) async {
+  Future<Either<Failure, User>> call(AddUserParams params) async {
     return await repository.createUser(
       name: params.name,
       email: params.email,
@@ -29,7 +29,7 @@ class AddUser {
 }
 
 /// Parámetros para el caso de uso AddUser
-class Params extends Equatable {
+class AddUserParams extends Equatable {
   final String name;
   final String email;
   final String password;
@@ -38,7 +38,7 @@ class Params extends Equatable {
   final String? identification;
   final String? profilePicture;
 
-  const Params({
+  const AddUserParams({
     required this.name,
     required this.email,
     required this.password,

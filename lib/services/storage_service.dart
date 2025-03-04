@@ -1,9 +1,10 @@
 import 'dart:io';
-import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
+import 'package:path_provider/path_provider.dart';
+
 import 'package:attendance_app/core/errors/exceptions.dart';
 
 /// Interfaz para el servicio de almacenamiento
@@ -24,7 +25,7 @@ abstract class StorageService {
   Future<String> ensureDirectoryExists(String dirPath);
 
   /// Obtiene el directorio de almacenamiento temporal
-  Future<String> getTemporaryDirectory();
+  Future<String> getTemporaryDirectoryApp();
 
   /// Obtiene el directorio de documentos
   Future<String> getDocumentsDirectory();
@@ -62,7 +63,7 @@ class StorageServiceImpl implements StorageService {
       return filePath;
     } catch (e) {
       debugPrint('Error al guardar la foto: $e');
-      throw StorageException('Error al guardar la foto: ${e.toString()}');
+      throw StorageExceptionApp('Error al guardar la foto: ${e.toString()}');
     }
   }
 
@@ -91,7 +92,7 @@ class StorageServiceImpl implements StorageService {
       return filePath;
     } catch (e) {
       debugPrint('Error al guardar la firma: $e');
-      throw StorageException('Error al guardar la firma: ${e.toString()}');
+      throw StorageExceptionApp('Error al guardar la firma: ${e.toString()}');
     }
   }
 
@@ -101,21 +102,21 @@ class StorageServiceImpl implements StorageService {
       if (kIsWeb) {
         // En web, recuperaríamos los bytes de IndexedDB o localStorage
         // Para este ejemplo, lanzamos una excepción ya que es solo el path virtual
-        throw StorageException(
+        throw StorageExceptionApp(
             'No se pueden obtener los bytes en web desde el path: $filePath');
       }
 
       // Verificar si el archivo existe
       final File file = File(filePath);
       if (!await file.exists()) {
-        throw StorageException('El archivo no existe: $filePath');
+        throw StorageExceptionApp('El archivo no existe: $filePath');
       }
 
       // Leer los bytes del archivo
       return await file.readAsBytes();
     } catch (e) {
       debugPrint('Error al obtener los bytes del archivo: $e');
-      throw StorageException(
+      throw StorageExceptionApp(
           'Error al obtener los bytes del archivo: ${e.toString()}');
     }
   }
@@ -162,28 +163,29 @@ class StorageServiceImpl implements StorageService {
       return dirPath;
     } catch (e) {
       debugPrint('Error al crear el directorio: $e');
-      throw StorageException('Error al crear el directorio: ${e.toString()}');
+      throw StorageExceptionApp(
+          'Error al crear el directorio: ${e.toString()}');
     }
   }
 
   @override
-  Future<String> getTemporaryDirectory() async {
+  Future<String> getTemporaryDirectoryApp() async {
     try {
       if (kIsWeb) {
         // En web, retornamos un path virtual
         return 'temp';
       }
 
-      final Directory dir = await getTemporaryDirectoryPath();
+      final Directory dir = await getTemporaryDirectoryPathApp();
       return dir.path;
     } catch (e) {
       debugPrint('Error al obtener el directorio temporal: $e');
-      throw StorageException(
+      throw StorageExceptionApp(
           'Error al obtener el directorio temporal: ${e.toString()}');
     }
   }
 
-  Future<Directory> getTemporaryDirectoryPath() async {
+  Future<Directory> getTemporaryDirectoryPathApp() async {
     return await getTemporaryDirectory();
   }
 
@@ -199,7 +201,7 @@ class StorageServiceImpl implements StorageService {
       return dir.path;
     } catch (e) {
       debugPrint('Error al obtener el directorio de documentos: $e');
-      throw StorageException(
+      throw StorageExceptionApp(
           'Error al obtener el directorio de documentos: ${e.toString()}');
     }
   }

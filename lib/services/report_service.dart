@@ -1,7 +1,8 @@
-import 'dart:typed_data';
-import 'package:attendance_app/domain/entities/user.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
+
+import 'package:attendance_app/domain/entities/user.dart';
 import 'package:attendance_app/core/errors/exceptions.dart';
 import 'package:attendance_app/data/models/attendance_model.dart';
 import 'package:attendance_app/data/models/location_model.dart';
@@ -9,7 +10,6 @@ import 'package:attendance_app/data/models/user_model.dart';
 import 'package:attendance_app/domain/entities/attendance.dart';
 import 'package:attendance_app/domain/entities/report.dart';
 import 'package:attendance_app/services/pdf_service.dart';
-import 'package:intl/intl.dart';
 
 /// Interfaz para el servicio de generación de reportes
 abstract class ReportService {
@@ -118,11 +118,11 @@ class ReportServiceImpl implements ReportService {
             locationId: locationId,
           );
         default:
-          throw ReportException('Formato de reporte no soportado');
+          throw ReportExceptionApp('Formato de reporte no soportado');
       }
     } catch (e) {
       debugPrint('Error al generar el reporte: $e');
-      throw ReportException('Error al generar el reporte: ${e.toString()}');
+      throw ReportExceptionApp('Error al generar el reporte: ${e.toString()}');
     }
   }
 
@@ -366,7 +366,7 @@ class ReportServiceImpl implements ReportService {
       return Uint8List.fromList(bytes);
     } catch (e) {
       debugPrint('Error al generar el reporte Excel: $e');
-      throw ReportException(
+      throw ReportExceptionApp(
           'Error al generar el reporte Excel: ${e.toString()}');
     }
   }
@@ -437,11 +437,12 @@ class ReportServiceImpl implements ReportService {
             locationId: locationId,
           );
         default:
-          throw ReportException('Tipo de reporte no soportado');
+          throw ReportExceptionApp('Tipo de reporte no soportado');
       }
     } catch (e) {
       debugPrint('Error al generar el reporte PDF: $e');
-      throw ReportException('Error al generar el reporte PDF: ${e.toString()}');
+      throw ReportExceptionApp(
+          'Error al generar el reporte PDF: ${e.toString()}');
     }
   }
 }

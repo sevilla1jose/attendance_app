@@ -1,10 +1,12 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+
 import 'package:attendance_app/core/errors/exceptions.dart';
 import 'package:attendance_app/core/network/supabase_client_app.dart';
 import 'package:attendance_app/data/models/auth_model.dart';
 import 'package:attendance_app/data/models/user_model.dart';
 import 'package:attendance_app/domain/entities/user.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Interfaz para el acceso a datos de autenticación remotos
 abstract class AuthRemoteDataSource {
@@ -45,7 +47,7 @@ abstract class AuthRemoteDataSource {
 
 /// Implementación de [AuthRemoteDataSource] usando Supabase
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final SupabaseClient supabaseClient;
+  final SupabaseClientApp supabaseClient;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final firebase_auth.FirebaseAuth _firebaseAuth =
       firebase_auth.FirebaseAuth.instance;
@@ -61,23 +63,25 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     try {
       // Autenticar con Supabase
-      final response = await supabaseClient.client.auth.signInWithPassword(
+      final response = await supabaseClient.clientApp.auth.signInWithPassword(
         email: email,
         password: password,
       );
 
       if (response.user == null) {
-        throw AuthException('Error en la autenticación: usuario no encontrado');
+        throw AuthExceptionApp(
+          'Error en la autenticación: usuario no encontrado',
+        );
       }
 
       // Obtener los datos del usuario
-      final userData = await supabaseClient.query(
+      final userData = await supabaseClient.queryApp(
         'users',
-        equals: {'id': response.user!.id},
+        equalsApp: {'id': response.user!.id},
       );
 
       if (userData.isEmpty) {
-        throw AuthException('Usuario no encontrado en la base de datos');
+        throw AuthExceptionApp('Usuario no encontrado en la base de datos');
       }
 
       final user = UserModel.fromSupabase(userData.first);
@@ -91,7 +95,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         user,
       );
     } catch (e) {
-      throw AuthException('Error al iniciar sesión con email: ${e.toString()}');
+      throw AuthExceptionApp(
+        'Error al iniciar sesión con email: ${e.toString()}',
+      );
     }
   }
 
@@ -102,7 +108,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
       if (googleUser == null) {
-        throw AuthException('Inicio de sesión con Google cancelado');
+        throw AuthExceptionApp('Inicio de sesión con Google cancelado');
       }
 
       // Obtener credenciales de autenticación de Google
@@ -123,23 +129,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final String? idToken = await authResult.user?.getIdToken();
 
       if (idToken == null) {
-        throw AuthException('No se pudo obtener el token de ID');
+        throw AuthExceptionApp('No se pudo obtener el token de ID');
       }
 
       // Autenticar con Supabase usando OAuth
-      final response = await supabaseClient.client.auth.signInWithIdToken(
-        provider: 'google',
+      final response = await supabaseClient.clientApp.auth.signInWithIdToken(
+        provider: Provider.google,
         idToken: idToken,
       );
 
       if (response.user == null) {
-        throw AuthException('Error en la autenticación con Supabase');
+        throw AuthExceptionApp('Error en la autenticación con Supabase');
       }
 
       // Verificar si el usuario existe en la base de datos
-      final userData = await supabaseClient.query(
+      final userData = await supabaseClient.queryApp(
         'users',
-        equals: {'id': response.user!.id},
+        equalsApp: {'id': response.user!.id},
       );
 
       UserModel user;
@@ -158,7 +164,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         );
 
         // Guardar el nuevo usuario en la base de datos
-        await supabaseClient.insert('users', newUser.toSupabase());
+        await supabaseClient.insertApp('users', newUser.toSupabase());
 
         user = newUser;
       } else {
@@ -174,8 +180,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         user,
       );
     } catch (e) {
-      throw AuthException(
-          'Error al iniciar sesión con Google: ${e.toString()}');
+      throw AuthExceptionApp(
+        'Error al iniciar sesión con Google: ${e.toString()}',
+      );
     }
   }
 
@@ -183,7 +190,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> logout() async {
     try {
       // Cerrar sesión en Supabase
-      await supabaseClient.client.auth.signOut();
+      await supabaseClient.clientApp.auth.signOut();
 
       // Cerrar sesión en Google
       if (await _googleSignIn.isSignedIn()) {
@@ -193,23 +200,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       // Cerrar sesión en Firebase
       await _firebaseAuth.signOut();
     } catch (e) {
-      throw AuthException('Error al cerrar sesión: ${e.toString()}');
+      throw AuthExceptionApp('Error al cerrar sesión: ${e.toString()}');
     }
   }
 
   @override
   Future<UserModel?> getCurrentUser() async {
     try {
-      final currentUser = supabaseClient.client.auth.currentUser;
+      final currentUser = supabaseClient.clientApp.auth.currentUser;
 
       if (currentUser == null) {
         return null;
       }
 
       // Obtener los datos del usuario
-      final userData = await supabaseClient.query(
+      final userData = await supabaseClient.queryApp(
         'users',
-        equals: {'id': currentUser.id},
+        equalsApp: {'id': currentUser.id},
       );
 
       if (userData.isEmpty) {
@@ -218,29 +225,32 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       return UserModel.fromSupabase(userData.first);
     } catch (e) {
-      throw AuthException(
-          'Error al obtener el usuario actual: ${e.toString()}');
+      throw AuthExceptionApp(
+        'Error al obtener el usuario actual: ${e.toString()}',
+      );
     }
   }
 
   @override
   Future<String?> getToken() async {
     try {
-      final session = supabaseClient.client.auth.currentSession;
+      final session = supabaseClient.clientApp.auth.currentSession;
       return session?.accessToken;
     } catch (e) {
-      throw AuthException(
-          'Error al obtener el token de autenticación: ${e.toString()}');
+      throw AuthExceptionApp(
+        'Error al obtener el token de autenticación: ${e.toString()}',
+      );
     }
   }
 
   @override
   Future<void> resetPassword(String email) async {
     try {
-      await supabaseClient.client.auth.resetPasswordForEmail(email);
+      await supabaseClient.clientApp.auth.resetPasswordForEmail(email);
     } catch (e) {
-      throw AuthException(
-          'Error al restablecer la contraseña: ${e.toString()}');
+      throw AuthExceptionApp(
+        'Error al restablecer la contraseña: ${e.toString()}',
+      );
     }
   }
 
@@ -250,24 +260,29 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String newPassword,
   }) async {
     try {
-      final currentUser = supabaseClient.client.auth.currentUser;
+      final currentUser = supabaseClient.clientApp.auth.currentUser;
 
       if (currentUser == null) {
-        throw AuthException('No hay un usuario autenticado');
+        throw AuthExceptionApp('No hay un usuario autenticado');
       }
 
       // Verificar contraseña actual
-      await supabaseClient.client.auth.signInWithPassword(
+      await supabaseClient.clientApp.auth.signInWithPassword(
         email: currentUser.email ?? '',
         password: currentPassword,
       );
 
       // Cambiar la contraseña
-      await supabaseClient.client.auth.updateUser(
-        password: newPassword,
+      await supabaseClient.clientApp.auth.updateUser(
+        UserAttributes(
+          email: currentUser.email,
+          password: newPassword,
+        ),
       );
     } catch (e) {
-      throw AuthException('Error al cambiar la contraseña: ${e.toString()}');
+      throw AuthExceptionApp(
+        'Error al cambiar la contraseña: ${e.toString()}',
+      );
     }
   }
 
@@ -278,23 +293,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     String? profilePicture,
   }) async {
     try {
-      final currentUser = supabaseClient.client.auth.currentUser;
+      final currentUser = supabaseClient.clientApp.auth.currentUser;
 
       if (currentUser == null) {
-        throw AuthException('No hay un usuario autenticado');
+        throw AuthExceptionApp('No hay un usuario autenticado');
       }
 
       // Obtener los datos actuales del usuario
-      final userData = await supabaseClient.query(
+      final userData = await supabaseClient.queryApp(
         'users',
-        equals: {'id': currentUser.id},
+        equalsApp: {'id': currentUser.id},
       );
 
       if (userData.isEmpty) {
-        throw AuthException('Usuario no encontrado en la base de datos');
+        throw AuthExceptionApp('Usuario no encontrado en la base de datos');
       }
-
-      final user = UserModel.fromSupabase(userData.first);
 
       // Crear el mapa de datos a actualizar
       final updatedData = <String, dynamic>{
@@ -303,19 +316,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       if (name != null) updatedData['name'] = name;
       if (phone != null) updatedData['phone'] = phone;
-      if (profilePicture != null)
+      if (profilePicture != null) {
         updatedData['profile_picture'] = profilePicture;
+      }
 
       // Actualizar los datos del usuario
-      final updatedUser = await supabaseClient.update(
+      final updatedUser = await supabaseClient.updateApp(
         'users',
         updatedData,
-        id: currentUser.id,
+        idApp: currentUser.id,
       );
 
       return UserModel.fromSupabase(updatedUser);
     } catch (e) {
-      throw AuthException('Error al actualizar el perfil: ${e.toString()}');
+      throw AuthExceptionApp('Error al actualizar el perfil: ${e.toString()}');
     }
   }
 }

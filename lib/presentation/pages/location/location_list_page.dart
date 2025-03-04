@@ -347,7 +347,7 @@ class _LocationListPageState extends State<LocationListPage> {
         icon: BitmapDescriptor.defaultMarkerWithHue(
           location.isActive
               ? BitmapDescriptor.hueGreen
-              : BitmapDescriptor.hueGrey,
+              : BitmapDescriptor.hueCyan,
         ),
       );
     }).toSet();

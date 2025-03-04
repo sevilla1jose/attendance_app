@@ -77,3 +77,8 @@ class SyncExceptionApp extends AppException {
 class ReportExceptionApp extends AppException {
   ReportExceptionApp(String message) : super(message);
 }
+
+///
+class FaceRecognitionException extends AppException {
+  FaceRecognitionException(String message) : super(message);
+}

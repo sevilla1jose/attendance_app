@@ -1,7 +1,9 @@
+import 'package:uuid/uuid.dart';
+
 import 'package:attendance_app/core/errors/exceptions.dart';
+import 'package:attendance_app/core/utils/geolocation_utils.dart';
 import 'package:attendance_app/data/datasources/local/database_helper.dart';
 import 'package:attendance_app/data/models/location_model.dart';
-import 'package:uuid/uuid.dart';
 
 /// Interfaz para el acceso a datos de ubicaciones almacenados localmente
 abstract class LocationLocalDataSource {
@@ -46,8 +48,12 @@ abstract class LocationLocalDataSource {
 /// Implementación de [LocationLocalDataSource] usando SQLite
 class LocationLocalDataSourceImpl implements LocationLocalDataSource {
   final DatabaseHelper databaseHelper;
+  final GeolocationUtils geolocationUtils;
 
-  LocationLocalDataSourceImpl({required this.databaseHelper});
+  LocationLocalDataSourceImpl({
+    required this.databaseHelper,
+    required this.geolocationUtils,
+  });
 
   @override
   Future<LocationModel?> getLocationById(String id) async {
@@ -60,7 +66,9 @@ class LocationLocalDataSourceImpl implements LocationLocalDataSource {
 
       return LocationModel.fromJson(locationData);
     } catch (e) {
-      throw DatabaseException('Error al obtener la ubicación: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al obtener la ubicación: ${e.toString()}',
+      );
     }
   }
 
@@ -73,8 +81,9 @@ class LocationLocalDataSourceImpl implements LocationLocalDataSource {
           .map((locationData) => LocationModel.fromJson(locationData))
           .toList();
     } catch (e) {
-      throw DatabaseException(
-          'Error al obtener todas las ubicaciones: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al obtener todas las ubicaciones: ${e.toString()}',
+      );
     }
   }
 
@@ -117,8 +126,9 @@ class LocationLocalDataSourceImpl implements LocationLocalDataSource {
           .map((locationData) => LocationModel.fromJson(locationData))
           .toList();
     } catch (e) {
-      throw DatabaseException(
-          'Error al obtener ubicaciones filtradas: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al obtener ubicaciones filtradas: ${e.toString()}',
+      );
     }
   }
 
@@ -141,7 +151,9 @@ class LocationLocalDataSourceImpl implements LocationLocalDataSource {
 
       return locationToCreate;
     } catch (e) {
-      throw DatabaseException('Error al crear la ubicación: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al crear la ubicación: ${e.toString()}',
+      );
     }
   }
 
@@ -160,8 +172,9 @@ class LocationLocalDataSourceImpl implements LocationLocalDataSource {
 
       return locationToUpdate;
     } catch (e) {
-      throw DatabaseException(
-          'Error al actualizar la ubicación: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al actualizar la ubicación: ${e.toString()}',
+      );
     }
   }
 
@@ -170,8 +183,9 @@ class LocationLocalDataSourceImpl implements LocationLocalDataSource {
     try {
       await databaseHelper.delete('locations', id);
     } catch (e) {
-      throw DatabaseException(
-          'Error al eliminar la ubicación: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al eliminar la ubicación: ${e.toString()}',
+      );
     }
   }
 
@@ -193,7 +207,9 @@ class LocationLocalDataSourceImpl implements LocationLocalDataSource {
           .map((locationData) => LocationModel.fromJson(locationData))
           .toList();
     } catch (e) {
-      throw DatabaseException('Error al buscar ubicaciones: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al buscar ubicaciones: ${e.toString()}',
+      );
     }
   }
 
@@ -207,84 +223,29 @@ class LocationLocalDataSourceImpl implements LocationLocalDataSource {
       // Obtener todas las ubicaciones
       final allLocations = await getAllLocations();
 
-      // Filtrar por distancia
-      // Nota: Este enfoque es ineficiente para grandes conjuntos de datos,
-      // pero aceptable para una aplicación con un número limitado de ubicaciones
-
-      final nearbyLocations = allLocations.where((location) {
-        // Calcular la distancia utilizando la fórmula de Haversine
-        // (La implementación real estaría en una clase de utilidad)
-
-        // Convertir a radianes
-        const double earthRadius = 6371000; // en metros
-        const double deg2rad = 3.14159265359 / 180.0;
-
-        final double lat1Rad = latitude * deg2rad;
-        final double lon1Rad = longitude * deg2rad;
-        final double lat2Rad = location.latitude * deg2rad;
-        final double lon2Rad = location.longitude * deg2rad;
-
-        final double dLat = lat2Rad - lat1Rad;
-        final double dLon = lon2Rad - lon1Rad;
-
-        final double a = (dLat / 2).sin() * (dLat / 2).sin() +
-            (lat1Rad).cos() *
-                (lat2Rad).cos() *
-                (dLon / 2).sin() *
-                (dLon / 2).sin();
-
-        final double c = 2 * ((a).sqrt()).atan2((1 - a).sqrt());
-        final double distance = earthRadius * c;
-
-        return distance <= maxDistance;
-      }).toList();
+      // Filtrar y calcular distancias utilizando GeolocationUtils
+      final nearbyLocations = allLocations
+          .map((location) {
+            final distance = GeolocationUtils.calculateDistance(
+              latitude,
+              longitude,
+              location.latitude,
+              location.longitude,
+            );
+            return (location: location, distance: distance);
+          })
+          .where((item) => item.distance <= maxDistance)
+          .toList();
 
       // Ordenar por cercanía
-      nearbyLocations.sort((a, b) {
-        // Calcular la distancia utilizando la fórmula de Haversine
-        // (La implementación real estaría en una clase de utilidad)
+      nearbyLocations.sort((a, b) => a.distance.compareTo(b.distance));
 
-        // Convertir a radianes
-        const double earthRadius = 6371000; // en metros
-        const double deg2rad = 3.14159265359 / 180.0;
-
-        final double lat1Rad = latitude * deg2rad;
-        final double lon1Rad = longitude * deg2rad;
-        final double lat2RadA = a.latitude * deg2rad;
-        final double lon2RadA = a.longitude * deg2rad;
-        final double lat2RadB = b.latitude * deg2rad;
-        final double lon2RadB = b.longitude * deg2rad;
-
-        final double dLatA = lat2RadA - lat1Rad;
-        final double dLonA = lon2RadA - lon1Rad;
-        final double dLatB = lat2RadB - lat1Rad;
-        final double dLonB = lon2RadB - lon1Rad;
-
-        final double aA = (dLatA / 2).sin() * (dLatA / 2).sin() +
-            (lat1Rad).cos() *
-                (lat2RadA).cos() *
-                (dLonA / 2).sin() *
-                (dLonA / 2).sin();
-
-        final double aB = (dLatB / 2).sin() * (dLatB / 2).sin() +
-            (lat1Rad).cos() *
-                (lat2RadB).cos() *
-                (dLonB / 2).sin() *
-                (dLonB / 2).sin();
-
-        final double cA = 2 * ((aA).sqrt()).atan2((1 - aA).sqrt());
-        final double cB = 2 * ((aB).sqrt()).atan2((1 - aB).sqrt());
-
-        final double distanceA = earthRadius * cA;
-        final double distanceB = earthRadius * cB;
-
-        return distanceA.compareTo(distanceB);
-      });
-
-      return nearbyLocations;
+      // Devolver solo las ubicaciones
+      return nearbyLocations.map((item) => item.location).toList();
     } catch (e) {
-      throw DatabaseException(
-          'Error al obtener ubicaciones cercanas: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al obtener ubicaciones cercanas: ${e.toString()}',
+      );
     }
   }
 
@@ -301,8 +262,9 @@ class LocationLocalDataSourceImpl implements LocationLocalDataSource {
           .map((locationData) => LocationModel.fromJson(locationData))
           .toList();
     } catch (e) {
-      throw DatabaseException(
-          'Error al obtener ubicaciones pendientes de sincronización: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al obtener ubicaciones pendientes de sincronización: ${e.toString()}',
+      );
     }
   }
 
@@ -315,8 +277,9 @@ class LocationLocalDataSourceImpl implements LocationLocalDataSource {
         id,
       );
     } catch (e) {
-      throw DatabaseException(
-          'Error al marcar la ubicación como sincronizada: ${e.toString()}');
+      throw DatabaseExceptionApp(
+        'Error al marcar la ubicación como sincronizada: ${e.toString()}',
+      );
     }
   }
 }

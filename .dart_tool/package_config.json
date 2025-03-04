@@ -3,7 +3,7 @@
   "packages": [
     {
       "name": "_fe_analyzer_shared",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-72.0.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-80.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -14,14 +14,8 @@
       "languageVersion": "3.2"
     },
     {
-      "name": "_macros",
-      "rootUri": "file:///Users/josesevilla/Development/flutter/bin/cache/dart-sdk/pkg/_macros",
-      "packageUri": "lib/",
-      "languageVersion": "3.4"
-    },
-    {
       "name": "analyzer",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/analyzer-6.7.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/analyzer-7.3.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -45,9 +39,9 @@
     },
     {
       "name": "async",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/async-2.11.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/async-2.12.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.4"
     },
     {
       "name": "background_fetch",
@@ -81,45 +75,45 @@
     },
     {
       "name": "boolean_selector",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/boolean_selector-2.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.1"
     },
     {
       "name": "build",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build-2.4.1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build-2.4.2",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.6"
     },
     {
       "name": "build_config",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build_config-1.1.1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build_config-1.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.6"
     },
     {
       "name": "build_daemon",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build_daemon-4.0.2",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build_daemon-4.0.4",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.6"
     },
     {
       "name": "build_resolvers",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build_resolvers-2.4.2",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build_resolvers-2.4.4",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.6"
     },
     {
       "name": "build_runner",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build_runner-2.4.13",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build_runner-2.4.15",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.6"
     },
     {
       "name": "build_runner_core",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build_runner_core-7.3.2",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/build_runner_core-8.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.6"
     },
     {
       "name": "built_collection",
@@ -165,9 +159,9 @@
     },
     {
       "name": "characters",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/characters-1.3.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/characters-1.4.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.4"
     },
     {
       "name": "charcode",
@@ -183,9 +177,9 @@
     },
     {
       "name": "clock",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/clock-1.1.1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/clock-1.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.4"
     },
     {
       "name": "code_builder",
@@ -195,9 +189,9 @@
     },
     {
       "name": "collection",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/collection-1.18.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/collection-1.19.1",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.4"
     },
     {
       "name": "connectivity_plus",
@@ -249,9 +243,9 @@
     },
     {
       "name": "dart_style",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/dart_style-2.3.7",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/dart_style-3.0.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.4"
     },
     {
       "name": "dartz",
@@ -267,9 +261,9 @@
     },
     {
       "name": "dev_build",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/dev_build-1.1.1+8",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/dev_build-1.1.2+5",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.7"
     },
     {
       "name": "device_info_plus",
@@ -315,19 +309,19 @@
     },
     {
       "name": "fake_async",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/fake_async-1.3.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "ffi",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/ffi-2.1.3",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/fake_async-1.3.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
+      "name": "ffi",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/ffi-2.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
+    },
+    {
       "name": "file",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/file-7.0.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/file-7.0.1",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -339,7 +333,7 @@
     },
     {
       "name": "file_saver",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/file_saver-0.2.13",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/file_saver-0.2.14",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -369,9 +363,9 @@
     },
     {
       "name": "firebase_auth",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/firebase_auth-4.20.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/firebase_auth-4.16.0",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "2.18"
     },
     {
       "name": "firebase_auth_platform_interface",
@@ -381,9 +375,9 @@
     },
     {
       "name": "firebase_auth_web",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/firebase_auth_web-5.12.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/firebase_auth_web-5.8.13",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "2.18"
     },
     {
       "name": "firebase_core",
@@ -399,9 +393,9 @@
     },
     {
       "name": "firebase_core_web",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/firebase_core_web-2.17.5",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/firebase_core_web-2.21.1",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.4"
     },
     {
       "name": "fixnum",
@@ -413,7 +407,7 @@
       "name": "flutter",
       "rootUri": "file:///Users/josesevilla/Development/flutter/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.7"
     },
     {
       "name": "flutter_bloc",
@@ -425,7 +419,7 @@
       "name": "flutter_driver",
       "rootUri": "file:///Users/josesevilla/Development/flutter/packages/flutter_driver",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.7"
     },
     {
       "name": "flutter_lints",
@@ -461,13 +455,13 @@
       "name": "flutter_test",
       "rootUri": "file:///Users/josesevilla/Development/flutter/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.7"
     },
     {
       "name": "flutter_web_plugins",
       "rootUri": "file:///Users/josesevilla/Development/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.7"
     },
     {
       "name": "frontend_server_client",
@@ -479,7 +473,7 @@
       "name": "fuchsia_remote_debug_protocol",
       "rootUri": "file:///Users/josesevilla/Development/flutter/packages/fuchsia_remote_debug_protocol",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.7"
     },
     {
       "name": "functions_client",
@@ -777,9 +771,9 @@
     },
     {
       "name": "http_parser",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/http_parser-4.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.4"
     },
     {
       "name": "image",
@@ -836,10 +830,22 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "injectable",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/injectable-2.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "injectable_generator",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/injectable_generator-2.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "integration_test",
       "rootUri": "file:///Users/josesevilla/Development/flutter/packages/integration_test",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.7"
     },
     {
       "name": "intl",
@@ -879,13 +885,13 @@
     },
     {
       "name": "leak_tracker",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/leak_tracker-10.0.5",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/leak_tracker-10.0.8",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_flutter_testing",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.5",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.9",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -920,16 +926,10 @@
       "languageVersion": "3.1"
     },
     {
-      "name": "macros",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/macros-0.1.2-main.4",
+      "name": "matcher",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/matcher-0.12.17",
       "packageUri": "lib/",
       "languageVersion": "3.4"
-    },
-    {
-      "name": "matcher",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/matcher-0.12.16+1",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
     },
     {
       "name": "material_color_utilities",
@@ -939,7 +939,7 @@
     },
     {
       "name": "meta",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/meta-1.15.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/meta-1.16.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -951,9 +951,9 @@
     },
     {
       "name": "mockito",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/mockito-5.4.4",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/mockito-5.4.5",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "3.6"
     },
     {
       "name": "mocktail",
@@ -981,7 +981,7 @@
     },
     {
       "name": "open_file",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/open_file-3.5.4",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/open_file-3.5.10",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -1017,7 +1017,7 @@
     },
     {
       "name": "open_file_web",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/open_file_web-0.0.2",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/open_file_web-0.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -1047,9 +1047,9 @@
     },
     {
       "name": "path",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/path-1.9.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/path-1.9.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.4"
     },
     {
       "name": "path_parsing",
@@ -1137,13 +1137,13 @@
     },
     {
       "name": "petitparser",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/petitparser-6.0.2",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/petitparser-6.1.0",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.5"
     },
     {
       "name": "platform",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/platform-3.1.5",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/platform-3.1.6",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -1167,21 +1167,21 @@
     },
     {
       "name": "printing",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/printing-5.13.1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/printing-5.14.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "process",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/process-5.0.2",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/process-5.0.3",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.3"
     },
     {
       "name": "process_run",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/process_run-1.2.2+1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/process_run-1.2.3",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.7"
     },
     {
       "name": "provider",
@@ -1197,9 +1197,9 @@
     },
     {
       "name": "pubspec_parse",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/pubspec_parse-1.4.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/pubspec_parse-1.5.0",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.6"
     },
     {
       "name": "qr",
@@ -1218,6 +1218,12 @@
       "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/realtime_client-1.4.0",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "recase",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/recase-4.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "retry",
@@ -1281,9 +1287,9 @@
     },
     {
       "name": "shelf",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/shelf-1.4.1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/shelf-1.4.2",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.4"
     },
     {
       "name": "shelf_packages_handler",
@@ -1299,9 +1305,9 @@
     },
     {
       "name": "shelf_web_socket",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/shelf_web_socket-2.0.1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/shelf_web_socket-3.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.5"
     },
     {
       "name": "shimmer",
@@ -1331,13 +1337,13 @@
       "name": "sky_engine",
       "rootUri": "file:///Users/josesevilla/Development/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.7"
     },
     {
       "name": "source_gen",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/source_gen-1.5.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/source_gen-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.6"
     },
     {
       "name": "source_map_stack_trace",
@@ -1353,45 +1359,45 @@
     },
     {
       "name": "source_span",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/source_span-1.10.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/source_span-1.10.1",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.1"
     },
     {
       "name": "sqflite",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite-2.4.1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite-2.4.2",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.7"
     },
     {
       "name": "sqflite_android",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite_android-2.4.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite_android-2.4.1",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.7"
     },
     {
       "name": "sqflite_common",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite_common-2.5.4+6",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite_common-2.5.5",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.7"
     },
     {
       "name": "sqflite_common_ffi",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.3.4+4",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite_common_ffi-2.3.5",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.7"
     },
     {
       "name": "sqflite_common_ffi_web",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite_common_ffi_web-0.4.3+1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite_common_ffi_web-0.4.5+4",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.5"
     },
     {
       "name": "sqflite_darwin",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.1+1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqflite_darwin-2.4.2",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.7"
     },
     {
       "name": "sqflite_platform_interface",
@@ -1401,15 +1407,15 @@
     },
     {
       "name": "sqlite3",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqlite3-2.4.5",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/sqlite3-2.7.4",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.5"
     },
     {
       "name": "stack_trace",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/stack_trace-1.11.1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/stack_trace-1.12.1",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.4"
     },
     {
       "name": "storage_client",
@@ -1419,9 +1425,9 @@
     },
     {
       "name": "stream_channel",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/stream_channel-2.1.2",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/stream_channel-2.1.4",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.3"
     },
     {
       "name": "stream_transform",
@@ -1431,9 +1437,9 @@
     },
     {
       "name": "string_scanner",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/string_scanner-1.2.0",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/string_scanner-1.4.1",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.1"
     },
     {
       "name": "supabase",
@@ -1479,33 +1485,33 @@
     },
     {
       "name": "synchronized",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/synchronized-3.3.0+3",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/synchronized-3.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
+    },
+    {
+      "name": "term_glyph",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/term_glyph-1.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
+    },
+    {
+      "name": "test",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/test-1.25.15",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
-      "name": "term_glyph",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/term_glyph-1.2.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "test",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/test-1.25.7",
-      "packageUri": "lib/",
-      "languageVersion": "3.2"
-    },
-    {
       "name": "test_api",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/test_api-0.7.2",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/test_api-0.7.4",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.5"
     },
     {
       "name": "test_core",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/test_core-0.6.4",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/test_core-0.6.8",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.5"
     },
     {
       "name": "tflite_flutter",
@@ -1575,9 +1581,9 @@
     },
     {
       "name": "url_launcher_web",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/url_launcher_web-2.3.3",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/url_launcher_web-2.4.0",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.6"
     },
     {
       "name": "url_launcher_windows",
@@ -1617,7 +1623,7 @@
     },
     {
       "name": "vm_service",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/vm_service-14.2.5",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/vm_service-14.3.1",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -1629,21 +1635,21 @@
     },
     {
       "name": "web",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/web-0.5.1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/web-1.1.1",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.4"
     },
     {
       "name": "web_socket_channel",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/web_socket_channel-2.4.5",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/web_socket_channel-2.4.0",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "2.15"
     },
     {
       "name": "webdriver",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/webdriver-3.0.3",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/webdriver-3.0.4",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.1"
     },
     {
       "name": "webkit_inspection_protocol",
@@ -1677,9 +1683,9 @@
     },
     {
       "name": "win32",
-      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/win32-5.10.1",
+      "rootUri": "file:///Users/josesevilla/.pub-cache/hosted/pub.dev/win32-5.11.0",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.7"
     },
     {
       "name": "win32_registry",
@@ -1724,10 +1730,10 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2025-03-02T23:18:28.911659Z",
+  "generated": "2025-03-03T22:08:41.573773Z",
   "generator": "pub",
-  "generatorVersion": "3.5.3",
+  "generatorVersion": "3.7.0",
   "flutterRoot": "file:///Users/josesevilla/Development/flutter",
-  "flutterVersion": "3.24.3",
+  "flutterVersion": "3.29.0",
   "pubCache": "file:///Users/josesevilla/.pub-cache"
 }

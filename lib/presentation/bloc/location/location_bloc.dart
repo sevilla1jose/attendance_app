@@ -40,7 +40,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   ) async {
     emit(LocationLoading());
 
-    final result = await getLocations(Params.all());
+    final result = await getLocations(GetLocationsParams.all());
 
     result.fold(
       (failure) => emit(LocationError(message: failure.message)),
@@ -56,7 +56,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     emit(LocationLoading());
 
     final result = await getLocations(
-      Params(
+      GetLocationsParams(
         isActive: event.isActive,
         searchQuery: event.searchQuery,
       ),
@@ -76,7 +76,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     emit(LocationLoading());
 
     final result = await addLocation(
-      Params(
+      AddLocationParams(
         name: event.name,
         address: event.address,
         latitude: event.latitude,
@@ -89,7 +89,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       (failure) => emit(LocationError(message: failure.message)),
       (location) async {
         // Recargar la lista de ubicaciones
-        final locationsResult = await getLocations(Params.all());
+        final locationsResult = await getLocations(GetLocationsParams.all());
 
         locationsResult.fold(
           (failure) => emit(LocationError(message: failure.message)),
@@ -123,7 +123,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       (failure) => emit(LocationError(message: failure.message)),
       (location) async {
         // Recargar la lista de ubicaciones
-        final locationsResult = await getLocations(Params.all());
+        final locationsResult = await getLocations(GetLocationsParams.all());
 
         locationsResult.fold(
           (failure) => emit(LocationError(message: failure.message)),

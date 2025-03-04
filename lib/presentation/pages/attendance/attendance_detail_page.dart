@@ -6,7 +6,6 @@ import 'package:attendance_app/domain/entities/attendance.dart';
 import 'package:attendance_app/domain/entities/location.dart';
 import 'package:attendance_app/domain/entities/user.dart';
 import 'package:attendance_app/presentation/bloc/attendance/attendance_bloc.dart';
-import 'package:attendance_app/presentation/widgets/common/app_bar.dart';
 import 'package:attendance_app/presentation/widgets/common/loading_indicator.dart';
 
 /// Página de detalle de un registro de asistencia

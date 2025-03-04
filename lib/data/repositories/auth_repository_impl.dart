@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+
 import 'package:attendance_app/core/errors/exceptions.dart';
 import 'package:attendance_app/core/errors/failures.dart';
 import 'package:attendance_app/core/network/network_info.dart';
@@ -40,9 +41,9 @@ class AuthRepositoryImpl implements AuthRepository {
       // Obtener desde la fuente local
       final localUser = await localDataSource.getCurrentUser();
       return Right(localUser);
-    } on AuthException catch (e) {
+    } on AuthExceptionApp catch (e) {
       return Left(AuthFailure(e.message));
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -69,9 +70,9 @@ class AuthRepositoryImpl implements AuthRepository {
       await localDataSource.saveCurrentUser(auth.user);
 
       return Right(auth.user);
-    } on AuthException catch (e) {
+    } on AuthExceptionApp catch (e) {
       return Left(AuthFailure(e.message));
-    } on ServerException catch (e) {
+    } on ServerExceptionApp catch (e) {
       return Left(ServerFailure(message: e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -92,9 +93,9 @@ class AuthRepositoryImpl implements AuthRepository {
       await localDataSource.saveCurrentUser(auth.user);
 
       return Right(auth.user);
-    } on AuthException catch (e) {
+    } on AuthExceptionApp catch (e) {
       return Left(AuthFailure(e.message));
-    } on ServerException catch (e) {
+    } on ServerExceptionApp catch (e) {
       return Left(ServerFailure(message: e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -117,9 +118,9 @@ class AuthRepositoryImpl implements AuthRepository {
       await localDataSource.clearAuth();
 
       return const Right(null);
-    } on AuthException catch (e) {
+    } on AuthExceptionApp catch (e) {
       return Left(AuthFailure(e.message));
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -157,9 +158,9 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await remoteDataSource.resetPassword(email);
       return const Right(null);
-    } on AuthException catch (e) {
+    } on AuthExceptionApp catch (e) {
       return Left(AuthFailure(e.message));
-    } on ServerException catch (e) {
+    } on ServerExceptionApp catch (e) {
       return Left(ServerFailure(message: e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -181,9 +182,9 @@ class AuthRepositoryImpl implements AuthRepository {
         newPassword: newPassword,
       );
       return const Right(null);
-    } on AuthException catch (e) {
+    } on AuthExceptionApp catch (e) {
       return Left(AuthFailure(e.message));
-    } on ServerException catch (e) {
+    } on ServerExceptionApp catch (e) {
       return Left(ServerFailure(message: e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -211,9 +212,9 @@ class AuthRepositoryImpl implements AuthRepository {
       await localDataSource.saveCurrentUser(updatedUser);
 
       return Right(updatedUser);
-    } on AuthException catch (e) {
+    } on AuthExceptionApp catch (e) {
       return Left(AuthFailure(e.message));
-    } on ServerException catch (e) {
+    } on ServerExceptionApp catch (e) {
       return Left(ServerFailure(message: e.message));
     } catch (e) {
       return Left(UnexpectedFailure());

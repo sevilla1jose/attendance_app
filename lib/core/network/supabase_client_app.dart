@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:attendance_app/core/errors/exceptions.dart';
@@ -7,81 +7,80 @@ import 'package:attendance_app/core/errors/exceptions.dart';
 /// Wrapper para el cliente de Supabase que proporciona funcionalidades comunes
 abstract class SupabaseClientApp {
   /// Obtiene el cliente de Supabase
-  SupabaseClient get client;
+  SupabaseClient get clientApp;
 
   /// Inserta datos en una tabla
-  Future<Map<String, dynamic>> insert(
-    String table,
-    Map<String, dynamic> data,
+  Future<Map<String, dynamic>> insertApp(
+    String tableApp,
+    Map<String, dynamic> dataApp,
   );
 
   /// Actualiza datos en una tabla
-  Future<Map<String, dynamic>> update(
-    String table,
-    Map<String, dynamic> data, {
-    required String id,
+  Future<Map<String, dynamic>> updateApp(
+    String tableApp,
+    Map<String, dynamic> dataApp, {
+    required String idApp,
   });
 
   /// Elimina datos de una tabla
-  Future<void> delete(String table, String id);
+  Future<void> deleteApp(String tableApp, String idApp);
 
   /// Obtiene un registro por ID
-  Future<Map<String, dynamic>> getById(String table, String id);
+  Future<Map<String, dynamic>> getByIdApp(String tableApp, String idApp);
 
   /// Obtiene registros basados en una consulta
-  Future<List<Map<String, dynamic>>> query(
-    String table, {
-    Map<String, dynamic>? equals,
-    String? orderBy,
-    bool descending = false,
-    int? limit,
-    int? offset,
+  Future<List<Map<String, dynamic>>> queryApp(
+    String tableApp, {
+    Map<String, dynamic>? equalsApp,
+    String? orderByApp,
+    bool descendingApp = false,
+    int? limitApp,
+    int? offsetApp,
   });
 
   /// Sube un archivo a un bucket
-  Future<String> uploadFile(
-    String bucket,
-    String path,
-    List<int> bytes, {
-    String? contentType,
+  Future<String> uploadFileApp(
+    String bucketApp,
+    String pathApp,
+    List<int> bytesApp, {
+    String? contentTypeApp,
   });
 
   /// Descarga un archivo desde un bucket
-  Future<List<int>> downloadFile(String bucket, String path);
+  Future<List<int>> downloadFileApp(String bucketApp, String pathApp);
 
   /// Elimina un archivo de un bucket
-  Future<void> deleteFile(String bucket, String path);
+  Future<void> deleteFileApp(String bucketApp, String pathApp);
 
   /// Obtiene una URL pública para un archivo
-  String getPublicUrl(String bucket, String path);
+  String getPublicUrlApp(String bucketApp, String pathApp);
 
   /// Suscribe a los cambios de una tabla
-  Stream<List<Map<String, dynamic>>> subscribe(
-    String table, {
-    String? event,
-    String? filterColumn,
-    dynamic filterValue,
-  });
+  /* Stream<List<Map<String, dynamic>>> subscribeApp(
+    String tableApp, {
+    String? eventApp,
+    String? filterColumnApp,
+    dynamic filterValueApp,
+  }); */
 }
 
-/// Implementación de [SupabaseClient]
-class SupabaseClientImpl implements SupabaseClientApp {
-  SupabaseClientImpl();
+/// Implementación de [SupabaseClientApp]
+class SupabaseClientAppImpl implements SupabaseClientApp {
+  @override
+  SupabaseClient get clientApp => Supabase.instance.client;
 
   @override
-  SupabaseClient get client => Supabase.instance.client;
-
-  @override
-  Future<Map<String, dynamic>> insert(
-    String table,
-    Map<String, dynamic> data,
+  Future<Map<String, dynamic>> insertApp(
+    String tableApp,
+    Map<String, dynamic> dataApp,
   ) async {
     try {
-      final response = await client.from(table).insert(data).select().single();
+      final responseApp =
+          await clientApp.from(tableApp).insert(dataApp).select().single();
 
-      return response;
+      return responseApp;
     } catch (e) {
-      debugPrint('Error inserting data in $table: $e');
+      debugPrint('Error inserting data in $tableApp: $e');
       throw ServerExceptionApp(
         message: 'Error inserting data: ${e.toString()}',
       );
@@ -89,175 +88,145 @@ class SupabaseClientImpl implements SupabaseClientApp {
   }
 
   @override
-  Future<Map<String, dynamic>> update(
-    String table,
-    Map<String, dynamic> data, {
-    required String id,
+  Future<Map<String, dynamic>> updateApp(
+    String tableApp,
+    Map<String, dynamic> dataApp, {
+    required String idApp,
   }) async {
     try {
-      final response =
-          await client.from(table).update(data).eq('id', id).select().single();
+      final responseApp = await clientApp
+          .from(tableApp)
+          .update(dataApp)
+          .eq('id', idApp)
+          .select()
+          .single();
 
-      return response;
+      return responseApp;
     } catch (e) {
-      debugPrint('Error updating data in $table: $e');
-      throw ServerExceptionApp(message: 'Error updating data: ${e.toString()}');
+      debugPrint('Error updating data in $tableApp: $e');
+      throw ServerExceptionApp(
+        message: 'Error updating data: ${e.toString()}',
+      );
     }
   }
 
   @override
-  Future<void> delete(String table, String id) async {
+  Future<void> deleteApp(String tableApp, String idApp) async {
     try {
-      await client.from(table).delete().eq('id', id);
+      await clientApp.from(tableApp).delete().eq('id', idApp);
     } catch (e) {
-      debugPrint('Error deleting data from $table: $e');
-      throw ServerExceptionApp(message: 'Error deleting data: ${e.toString()}');
+      debugPrint('Error deleting data from $tableApp: $e');
+      throw ServerExceptionApp(
+        message: 'Error deleting data: ${e.toString()}',
+      );
     }
   }
 
   @override
-  Future<Map<String, dynamic>> getById(String table, String id) async {
+  Future<Map<String, dynamic>> getByIdApp(String tableApp, String idApp) async {
     try {
-      final response = await client.from(table).select().eq('id', id).single();
+      final responseApp =
+          await clientApp.from(tableApp).select().eq('id', idApp).single();
 
-      return response;
+      return responseApp;
     } catch (e) {
-      debugPrint('Error getting data from $table: $e');
-      throw ServerExceptionApp(message: 'Error getting data: ${e.toString()}');
+      debugPrint('Error getting data from $tableApp: $e');
+      throw ServerExceptionApp(
+        message: 'Error getting data: ${e.toString()}',
+      );
     }
   }
 
   @override
-  Future<List<Map<String, dynamic>>> query(
-    String table, {
-    Map<String, dynamic>? equals,
-    String? orderBy,
-    bool descending = false,
-    int? limit,
-    int? offset,
+  Future<String> uploadFileApp(
+    String bucketApp,
+    String pathApp,
+    List<int> bytesApp, {
+    String? contentTypeApp,
   }) async {
     try {
-      var query = client.from(table).select();
-
-      // Aplica los filtros si se proporcionan
-      if (equals != null) {
-        equals.forEach((key, value) {
-          query = query.eq(key, value);
-        });
-      }
-
-      // Aplica ordenamiento si se proporciona
-      if (orderBy != null) {
-        query = query.order(orderBy, ascending: !descending);
-      }
-
-      // Aplica paginación si se proporciona
-      if (limit != null) {
-        query = query.limit(limit);
-      }
-
-      if (offset != null) {
-        query = query.range(offset, offset + (limit ?? 20) - 1);
-      }
-
-      final response = await query;
-      return List<Map<String, dynamic>>.from(response);
-    } catch (e) {
-      debugPrint('Error querying data from $table: $e');
-      throw ServerExceptionApp(message: 'Error querying data: ${e.toString()}');
-    }
-  }
-
-  @override
-  Future<String> uploadFile(
-    String bucket,
-    String path,
-    List<int> bytes, {
-    String? contentType,
-  }) async {
-    try {
-      final response = await client.storage.from(bucket).uploadBinary(
-            path,
-            bytes,
+      final responseApp = await clientApp.storage.from(bucketApp).uploadBinary(
+            pathApp,
+            Uint8List.fromList(bytesApp),
             fileOptions: FileOptions(
-              contentType: contentType,
+              contentType: contentTypeApp,
               upsert: true,
             ),
           );
 
-      return response;
+      return responseApp;
     } catch (e) {
-      debugPrint('Error uploading file to $bucket/$path: $e');
-      throw StorageExceptionApp('Error uploading file: ${e.toString()}');
-    }
-  }
-
-  @override
-  Future<List<int>> downloadFile(String bucket, String path) async {
-    try {
-      final response = await client.storage.from(bucket).download(path);
-      return response;
-    } catch (e) {
-      debugPrint('Error downloading file from $bucket/$path: $e');
-      throw StorageExceptionApp('Error downloading file: ${e.toString()}');
-    }
-  }
-
-  @override
-  Future<void> deleteFile(String bucket, String path) async {
-    try {
-      await client.storage.from(bucket).remove([path]);
-    } catch (e) {
-      debugPrint('Error deleting file from $bucket/$path: $e');
-      throw StorageExceptionApp('Error deleting file: ${e.toString()}');
-    }
-  }
-
-  @override
-  String getPublicUrl(String bucket, String path) {
-    try {
-      return client.storage.from(bucket).getPublicUrl(path);
-    } catch (e) {
-      debugPrint('Error getting public URL for $bucket/$path: $e');
-      throw StorageExceptionApp('Error getting public URL: ${e.toString()}');
-    }
-  }
-
-  @override
-  Stream<List<Map<String, dynamic>>> subscribe(
-    String table, {
-    String? event,
-    String? filterColumn,
-    dynamic filterValue,
-  }) {
-    try {
-      // Create the channel
-      final channel = client.channel('public:$table');
-
-      // Prepare the filter
-      var postgrestFilter = channel.on(
-        event ?? RealtimeListenTypes.postgresChanges,
-        callback: (payload) {},
+      debugPrint('Error uploading file to $bucketApp/$pathApp: $e');
+      throw StorageExceptionApp(
+        'Error uploading file: ${e.toString()}',
       );
+    }
+  }
 
-      // Add column filter if specified
-      if (filterColumn != null && filterValue != null) {
-        postgrestFilter = postgrestFilter.eq('new.$filterColumn', filterValue);
+  @override
+  Future<List<int>> downloadFileApp(String bucketApp, String pathApp) async {
+    try {
+      final responseApp =
+          await clientApp.storage.from(bucketApp).download(pathApp);
+      return responseApp;
+    } catch (e) {
+      debugPrint('Error downloading file from $bucketApp/$pathApp: $e');
+      throw StorageExceptionApp(
+        'Error downloading file: ${e.toString()}',
+      );
+    }
+  }
+
+  @override
+  Future<void> deleteFileApp(String bucketApp, String pathApp) async {
+    try {
+      await clientApp.storage.from(bucketApp).remove([pathApp]);
+    } catch (e) {
+      debugPrint('Error deleting file from $bucketApp/$pathApp: $e');
+      throw StorageExceptionApp(
+        'Error deleting file: ${e.toString()}',
+      );
+    }
+  }
+
+  @override
+  String getPublicUrlApp(String bucketApp, String pathApp) {
+    try {
+      return clientApp.storage.from(bucketApp).getPublicUrl(pathApp);
+    } catch (e) {
+      debugPrint('Error getting public URL for $bucketApp/$pathApp: $e');
+      throw StorageExceptionApp(
+        'Error getting public URL: ${e.toString()}',
+      );
+    }
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> queryApp(
+    String tableApp, {
+    Map<String, dynamic>? equalsApp,
+    String? orderByApp,
+    bool descendingApp = false,
+    int? limitApp,
+    int? offsetApp,
+  }) async {
+    try {
+      var queryApp = clientApp.from(tableApp).select();
+
+      // Aplicar filtros de igualdad
+      if (equalsApp != null) {
+        equalsApp.forEach((keyApp, valueApp) {
+          queryApp = queryApp.eq(keyApp, valueApp);
+        });
       }
 
-      // Subscribe to the channel
-      channel.subscribe();
-
-      // Map the stream to extract new records
-      return channel.stream.map((event) {
-        if (event.payload.containsKey('new')) {
-          return [Map<String, dynamic>.from(event.payload['new'])];
-        }
-        return <Map<String, dynamic>>[];
-      });
+      final responseApp = await queryApp;
+      return List<Map<String, dynamic>>.from(responseApp);
     } catch (e) {
-      debugPrint('Error subscribing to $table: $e');
-      throw StorageException('Error subscribing to table: ${e.toString()}');
+      debugPrint('Error querying data from $tableApp: $e');
+      throw ServerExceptionApp(
+        message: 'Error querying data: ${e.toString()}',
+      );
     }
   }
 }

@@ -15,7 +15,7 @@ class UpdateUser {
   /// [params] - Parámetros necesarios para actualizar un usuario
   ///
   /// Retorna el usuario actualizado si la operación es exitosa
-  Future<Either<Failure, User>> call(Params params) async {
+  Future<Either<Failure, User>> call(UpdateUserParams params) async {
     return await repository.updateUser(
       id: params.id,
       name: params.name,
@@ -30,7 +30,7 @@ class UpdateUser {
 }
 
 /// Parámetros para el caso de uso UpdateUser
-class Params extends Equatable {
+class UpdateUserParams extends Equatable {
   final String id;
   final String? name;
   final String? email;
@@ -40,7 +40,7 @@ class Params extends Equatable {
   final String? profilePicture;
   final bool? isActive;
 
-  const Params({
+  const UpdateUserParams({
     required this.id,
     this.name,
     this.email,

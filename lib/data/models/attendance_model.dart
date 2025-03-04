@@ -32,6 +32,7 @@ class AttendanceModel extends Attendance {
         );
 
   /// Crea una copia del modelo con algunos campos modificados
+  @override
   AttendanceModel copyWith({
     String? id,
     String? userId,

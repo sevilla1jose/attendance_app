@@ -84,11 +84,6 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   ) async {
     try {
       if (event.reportFormat == ReportFormat.pdf) {
-        await reportService.pdfervice.previewPdf(
-          event.reportBytes,
-          title: event.fileName,
-        );
-
         emit(ReportViewed(
           reportBytes: event.reportBytes,
           fileName: event.fileName,

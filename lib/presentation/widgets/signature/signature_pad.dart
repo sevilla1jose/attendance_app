@@ -283,13 +283,10 @@ class _SignaturePainter extends CustomPainter {
       for (int i = 1; i < stroke.length; i++) {
         // Suavizar la línea usando una curva de Bézier si hay suficientes puntos
         if (i < stroke.length - 1) {
-          final p0 = stroke[i - 1];
           final p1 = stroke[i];
           final p2 = stroke[i + 1];
 
           // Punto de control para suavizar
-          final xc1 = (p0.dx + p1.dx) / 2;
-          final yc1 = (p0.dy + p1.dy) / 2;
           final xc2 = (p1.dx + p2.dx) / 2;
           final yc2 = (p1.dy + p2.dy) / 2;
 

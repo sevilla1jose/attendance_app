@@ -15,7 +15,7 @@ class GetUsers {
   /// [params] - Parámetros opcionales para filtrar usuarios
   ///
   /// Retorna la lista de usuarios que coinciden con los filtros
-  Future<Either<Failure, List<User>>> call(Params params) async {
+  Future<Either<Failure, List<User>>> call(GetUsersParams params) async {
     return await repository.getUsers(
       role: params.role,
       isActive: params.isActive,
@@ -25,16 +25,19 @@ class GetUsers {
 }
 
 /// Parámetros para el caso de uso GetUsers
-class Params extends Equatable {
+class GetUsersParams extends Equatable {
   final UserRole? role;
   final bool? isActive;
   final String? searchQuery;
 
-  const Params({
+  const GetUsersParams({
     this.role,
     this.isActive,
     this.searchQuery,
   });
+
+  /// Constructor para obtener todos los registros sin filtros
+  factory GetUsersParams.all() => const GetUsersParams();
 
   @override
   List<Object?> get props => [role, isActive, searchQuery];

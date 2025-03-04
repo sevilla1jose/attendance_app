@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:attendance_app/core/platform/platform_info.dart';
-import 'package:attendance_app/core/constants/route_constants.dart';
 
 /// Barra de navegación inferior adaptable a la plataforma
 class AppBottomNavigation extends StatelessWidget {

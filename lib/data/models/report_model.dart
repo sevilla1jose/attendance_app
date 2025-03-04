@@ -36,6 +36,7 @@ class ReportModel extends Report {
         );
 
   /// Crea una copia del modelo con algunos campos modificados
+  @override
   ReportModel copyWith({
     String? id,
     String? name,

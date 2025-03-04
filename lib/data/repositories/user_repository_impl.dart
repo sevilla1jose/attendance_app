@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+
 import 'package:attendance_app/core/errors/exceptions.dart';
 import 'package:attendance_app/core/errors/failures.dart';
 import 'package:attendance_app/core/network/network_info.dart';
@@ -32,7 +33,7 @@ class UserRepositoryImpl implements UserRepository {
           await localDataSource.createUser(user);
 
           return Right(user);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           // Si falla, intentar obtener desde la fuente local
           return Left(ServerFailure(message: e.message));
         }
@@ -46,7 +47,7 @@ class UserRepositoryImpl implements UserRepository {
       } else {
         return Left(NotFoundFailure('Usuario no encontrado'));
       }
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -75,7 +76,7 @@ class UserRepositoryImpl implements UserRepository {
       // Obtener desde la fuente local
       final users = await localDataSource.getAllUsers();
       return Right(users);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -117,7 +118,7 @@ class UserRepositoryImpl implements UserRepository {
       );
 
       return Right(users);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -142,7 +143,7 @@ class UserRepositoryImpl implements UserRepository {
       final user = await remoteDataSource.createUser(
         name: name,
         email: email,
-        password: password,
+        passwordIn: password,
         role: role,
         phone: phone,
         identification: identification,
@@ -153,7 +154,7 @@ class UserRepositoryImpl implements UserRepository {
       await localDataSource.createUser(user);
 
       return Right(user);
-    } on ServerException catch (e) {
+    } on ServerExceptionApp catch (e) {
       return Left(ServerFailure(message: e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -192,7 +193,7 @@ class UserRepositoryImpl implements UserRepository {
           await localDataSource.updateUser(user);
 
           return Right(user);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           return Left(ServerFailure(message: e.message));
         }
       } else {
@@ -219,7 +220,7 @@ class UserRepositoryImpl implements UserRepository {
 
         return Right(user);
       }
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -242,7 +243,7 @@ class UserRepositoryImpl implements UserRepository {
       );
 
       return const Right(null);
-    } on ServerException catch (e) {
+    } on ServerExceptionApp catch (e) {
       return Left(ServerFailure(message: e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -256,7 +257,7 @@ class UserRepositoryImpl implements UserRepository {
         try {
           // Eliminar en el servidor
           await remoteDataSource.deleteUser(id);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           return Left(ServerFailure(message: e.message));
         }
       }
@@ -264,7 +265,7 @@ class UserRepositoryImpl implements UserRepository {
       // Eliminar localmente (incluso si la operación remota falla)
       try {
         await localDataSource.deleteUser(id);
-      } on DatabaseException catch (e) {
+      } on DatabaseExceptionApp catch (e) {
         return Left(DatabaseFailure(e.message));
       }
 
@@ -296,7 +297,7 @@ class UserRepositoryImpl implements UserRepository {
       final users = await localDataSource.searchUsers(query);
 
       return Right(users);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -328,7 +329,7 @@ class UserRepositoryImpl implements UserRepository {
       }
 
       return Right(imageUrl);
-    } on ServerException catch (e) {
+    } on ServerExceptionApp catch (e) {
       return Left(ServerFailure(message: e.message));
     } catch (e) {
       return Left(UnexpectedFailure());

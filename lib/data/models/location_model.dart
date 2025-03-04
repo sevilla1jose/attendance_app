@@ -29,6 +29,7 @@ class LocationModel extends Location {
         );
 
   /// Crea una copia del modelo con algunos campos modificados
+  @override
   LocationModel copyWith({
     String? id,
     String? name,

@@ -1,9 +1,10 @@
+import 'package:uuid/uuid.dart';
+
 import 'package:attendance_app/core/constants/app_constants.dart';
 import 'package:attendance_app/core/errors/exceptions.dart';
 import 'package:attendance_app/core/network/supabase_client_app.dart';
 import 'package:attendance_app/core/utils/geolocation_utils.dart';
 import 'package:attendance_app/data/models/location_model.dart';
-import 'package:uuid/uuid.dart';
 
 /// Interfaz para el acceso a datos de ubicaciones remotos
 abstract class LocationRemoteDataSource {
@@ -55,35 +56,40 @@ abstract class LocationRemoteDataSource {
 
 /// Implementación de [LocationRemoteDataSource] usando Supabase
 class LocationRemoteDataSourceImpl implements LocationRemoteDataSource {
-  final SupabaseClient supabaseClient;
+  final SupabaseClientApp supabaseClient;
 
   LocationRemoteDataSourceImpl({required this.supabaseClient});
 
   @override
   Future<LocationModel> getLocationById(String id) async {
     try {
-      final locationData =
-          await supabaseClient.getById(AppConstants.locationsTable, id);
+      final locationData = await supabaseClient.getByIdApp(
+        AppConstants.locationsTable,
+        id,
+      );
 
       return LocationModel.fromSupabase(locationData);
     } catch (e) {
-      throw ServerException(
-          message: 'Error al obtener la ubicación: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al obtener la ubicación: ${e.toString()}',
+      );
     }
   }
 
   @override
   Future<List<LocationModel>> getAllLocations() async {
     try {
-      final locationsData =
-          await supabaseClient.query(AppConstants.locationsTable);
+      final locationsData = await supabaseClient.queryApp(
+        AppConstants.locationsTable,
+      );
 
       return locationsData
           .map((locationData) => LocationModel.fromSupabase(locationData))
           .toList();
     } catch (e) {
-      throw ServerException(
-          message: 'Error al obtener todas las ubicaciones: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al obtener todas las ubicaciones: ${e.toString()}',
+      );
     }
   }
 
@@ -101,7 +107,7 @@ class LocationRemoteDataSourceImpl implements LocationRemoteDataSource {
       }
 
       var query =
-          supabaseClient.client.from(AppConstants.locationsTable).select();
+          supabaseClient.clientApp.from(AppConstants.locationsTable).select();
 
       // Aplicar filtros de igualdad
       if (equals != null) {
@@ -116,17 +122,15 @@ class LocationRemoteDataSourceImpl implements LocationRemoteDataSource {
             query.or('name.ilike.%$searchQuery%,address.ilike.%$searchQuery%');
       }
 
-      // Ordenar por nombre
-      query = query.order('name', ascending: true);
-
       final response = await query;
 
       return (response as List)
           .map((locationData) => LocationModel.fromSupabase(locationData))
           .toList();
     } catch (e) {
-      throw ServerException(
-          message: 'Error al obtener ubicaciones filtradas: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al obtener ubicaciones filtradas: ${e.toString()}',
+      );
     }
   }
 
@@ -157,13 +161,16 @@ class LocationRemoteDataSourceImpl implements LocationRemoteDataSource {
         'updated_at': now.toIso8601String(),
       };
 
-      final response = await supabaseClient.insert(
-          AppConstants.locationsTable, locationData);
+      final response = await supabaseClient.insertApp(
+        AppConstants.locationsTable,
+        locationData,
+      );
 
       return LocationModel.fromSupabase(response);
     } catch (e) {
-      throw ServerException(
-          message: 'Error al crear la ubicación: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al crear la ubicación: ${e.toString()}',
+      );
     }
   }
 
@@ -191,16 +198,17 @@ class LocationRemoteDataSourceImpl implements LocationRemoteDataSource {
       if (isActive != null) updateData['is_active'] = isActive;
 
       // Actualizar en la base de datos
-      final response = await supabaseClient.update(
+      final response = await supabaseClient.updateApp(
         AppConstants.locationsTable,
         updateData,
-        id: id,
+        idApp: id,
       );
 
       return LocationModel.fromSupabase(response);
     } catch (e) {
-      throw ServerException(
-          message: 'Error al actualizar la ubicación: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al actualizar la ubicación: ${e.toString()}',
+      );
     }
   }
 
@@ -208,10 +216,11 @@ class LocationRemoteDataSourceImpl implements LocationRemoteDataSource {
   Future<void> deleteLocation(String id) async {
     try {
       // Eliminar la ubicación de la base de datos
-      await supabaseClient.delete(AppConstants.locationsTable, id);
+      await supabaseClient.deleteApp(AppConstants.locationsTable, id);
     } catch (e) {
-      throw ServerException(
-          message: 'Error al eliminar la ubicación: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al eliminar la ubicación: ${e.toString()}',
+      );
     }
   }
 
@@ -222,7 +231,7 @@ class LocationRemoteDataSourceImpl implements LocationRemoteDataSource {
         return await getAllLocations();
       }
 
-      final response = await supabaseClient.client
+      final response = await supabaseClient.clientApp
           .from(AppConstants.locationsTable)
           .select()
           .or('name.ilike.%$query%,address.ilike.%$query%')
@@ -232,8 +241,9 @@ class LocationRemoteDataSourceImpl implements LocationRemoteDataSource {
           .map((locationData) => LocationModel.fromSupabase(locationData))
           .toList();
     } catch (e) {
-      throw ServerException(
-          message: 'Error al buscar ubicaciones: ${e.toString()}');
+      throw ServerExceptionApp(
+        message: 'Error al buscar ubicaciones: ${e.toString()}',
+      );
     }
   }
 
@@ -284,7 +294,7 @@ class LocationRemoteDataSourceImpl implements LocationRemoteDataSource {
 
       return nearbyLocations;
     } catch (e) {
-      throw ServerException(
+      throw ServerExceptionApp(
           message: 'Error al obtener ubicaciones cercanas: ${e.toString()}');
     }
   }

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
+
 import 'package:attendance_app/core/constants/app_constants.dart';
 import 'package:attendance_app/core/errors/exceptions.dart';
 
@@ -143,7 +144,7 @@ class DatabaseHelper {
       );
     } catch (e) {
       debugPrint('Error insertando en $table: $e');
-      throw DatabaseException('Error insertando datos: ${e.toString()}');
+      throw DatabaseExceptionApp('Error insertando datos: ${e.toString()}');
     }
   }
 
@@ -159,7 +160,7 @@ class DatabaseHelper {
       );
     } catch (e) {
       debugPrint('Error actualizando en $table: $e');
-      throw DatabaseException('Error actualizando datos: ${e.toString()}');
+      throw DatabaseExceptionApp('Error actualizando datos: ${e.toString()}');
     }
   }
 
@@ -174,7 +175,7 @@ class DatabaseHelper {
       );
     } catch (e) {
       debugPrint('Error eliminando en $table: $e');
-      throw DatabaseException('Error eliminando datos: ${e.toString()}');
+      throw DatabaseExceptionApp('Error eliminando datos: ${e.toString()}');
     }
   }
 
@@ -195,7 +196,7 @@ class DatabaseHelper {
       return null;
     } catch (e) {
       debugPrint('Error obteniendo datos de $table: $e');
-      throw DatabaseException('Error obteniendo datos: ${e.toString()}');
+      throw DatabaseExceptionApp('Error obteniendo datos: ${e.toString()}');
     }
   }
 
@@ -206,7 +207,7 @@ class DatabaseHelper {
       return await db.query(table);
     } catch (e) {
       debugPrint('Error obteniendo todos los datos de $table: $e');
-      throw DatabaseException('Error obteniendo datos: ${e.toString()}');
+      throw DatabaseExceptionApp('Error obteniendo datos: ${e.toString()}');
     }
   }
 
@@ -239,7 +240,7 @@ class DatabaseHelper {
       );
     } catch (e) {
       debugPrint('Error consultando $table: $e');
-      throw DatabaseException('Error consultando datos: ${e.toString()}');
+      throw DatabaseExceptionApp('Error consultando datos: ${e.toString()}');
     }
   }
 
@@ -251,7 +252,7 @@ class DatabaseHelper {
       return await db.rawQuery(sql, arguments);
     } catch (e) {
       debugPrint('Error ejecutando consulta: $e');
-      throw DatabaseException('Error ejecutando consulta: ${e.toString()}');
+      throw DatabaseExceptionApp('Error ejecutando consulta: ${e.toString()}');
     }
   }
 
@@ -266,7 +267,7 @@ class DatabaseHelper {
       );
     } catch (e) {
       debugPrint('Error obteniendo registros pendientes de $table: $e');
-      throw DatabaseException(
+      throw DatabaseExceptionApp(
           'Error obteniendo registros pendientes: ${e.toString()}');
     }
   }
@@ -283,7 +284,7 @@ class DatabaseHelper {
       );
     } catch (e) {
       debugPrint('Error marcando como sincronizado en $table: $e');
-      throw DatabaseException(
+      throw DatabaseExceptionApp(
           'Error marcando como sincronizado: ${e.toString()}');
     }
   }

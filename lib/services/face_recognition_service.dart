@@ -1,7 +1,7 @@
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+
 import 'package:attendance_app/core/constants/app_constants.dart';
 import 'package:attendance_app/core/errors/exceptions.dart';
 
@@ -50,7 +50,9 @@ class FaceRecognitionServiceImpl implements FaceRecognitionService {
         bytes: imageBytes,
         metadata: InputImageMetadata(
           size: const Size(
-              640, 480), // Tamaño estándar, ajustar según se necesite
+            640,
+            480,
+          ), // Tamaño estándar, ajustar según se necesite
           rotation: InputImageRotation.rotation0deg,
           format: InputImageFormat.yuv420,
           bytesPerRow: 640 * 4, // Asumiendo RGBA
@@ -64,7 +66,8 @@ class FaceRecognitionServiceImpl implements FaceRecognitionService {
     } catch (e) {
       debugPrint('Error detectando rostros: $e');
       throw FaceRecognitionException(
-          'Error detectando rostros: ${e.toString()}');
+        'Error detectando rostros: ${e.toString()}',
+      );
     }
   }
 

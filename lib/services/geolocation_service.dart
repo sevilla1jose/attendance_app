@@ -54,7 +54,7 @@ class GeolocationServiceImpl implements GeolocationService {
       return await Geolocator.isLocationServiceEnabled();
     } catch (e) {
       debugPrint('Error verificando servicios de ubicación: $e');
-      throw LocationException(
+      throw LocationExceptionApp(
           'Error verificando servicios de ubicación: ${e.toString()}');
     }
   }
@@ -67,7 +67,7 @@ class GeolocationServiceImpl implements GeolocationService {
           permission == LocationPermission.whileInUse;
     } catch (e) {
       debugPrint('Error verificando permisos de ubicación: $e');
-      throw LocationException(
+      throw LocationExceptionApp(
           'Error verificando permisos de ubicación: ${e.toString()}');
     }
   }
@@ -80,7 +80,7 @@ class GeolocationServiceImpl implements GeolocationService {
           permission == LocationPermission.whileInUse;
     } catch (e) {
       debugPrint('Error solicitando permisos de ubicación: $e');
-      throw LocationException(
+      throw LocationExceptionApp(
           'Error solicitando permisos de ubicación: ${e.toString()}');
     }
   }
@@ -91,7 +91,7 @@ class GeolocationServiceImpl implements GeolocationService {
       // Verificar si el servicio está habilitado
       final serviceEnabled = await isLocationServiceEnabled();
       if (!serviceEnabled) {
-        throw LocationException(
+        throw LocationExceptionApp(
             'Los servicios de ubicación están desactivados');
       }
 
@@ -100,18 +100,19 @@ class GeolocationServiceImpl implements GeolocationService {
       if (!permissionGranted) {
         final permissionRequested = await requestLocationPermission();
         if (!permissionRequested) {
-          throw LocationException('Permiso de ubicación denegado');
+          throw LocationExceptionApp('Permiso de ubicación denegado');
         }
       }
 
       // Obtener la posición actual
       return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
-        timeLimit: Duration(seconds: AppConstants.networkTimeoutInSeconds),
+        timeLimit:
+            const Duration(seconds: AppConstants.networkTimeoutInSeconds),
       );
     } catch (e) {
       debugPrint('Error obteniendo la posición actual: $e');
-      throw LocationException(
+      throw LocationExceptionApp(
           'Error obteniendo la posición actual: ${e.toString()}');
     }
   }
@@ -125,7 +126,7 @@ class GeolocationServiceImpl implements GeolocationService {
       return await placemarkFromCoordinates(latitude, longitude);
     } catch (e) {
       debugPrint('Error obteniendo dirección desde coordenadas: $e');
-      throw LocationException('Error obteniendo dirección: ${e.toString()}');
+      throw LocationExceptionApp('Error obteniendo dirección: ${e.toString()}');
     }
   }
 
@@ -135,7 +136,8 @@ class GeolocationServiceImpl implements GeolocationService {
       return await locationFromAddress(address);
     } catch (e) {
       debugPrint('Error obteniendo coordenadas desde dirección: $e');
-      throw LocationException('Error obteniendo coordenadas: ${e.toString()}');
+      throw LocationExceptionApp(
+          'Error obteniendo coordenadas: ${e.toString()}');
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+
 import 'package:attendance_app/core/errors/exceptions.dart';
 import 'package:attendance_app/core/errors/failures.dart';
 import 'package:attendance_app/core/network/network_info.dart';
@@ -32,7 +33,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
           await localDataSource.createAttendanceRecord(attendance);
 
           return Right(attendance);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           // Si falla, intentar obtener desde la fuente local
           return Left(ServerFailure(message: e.message));
         }
@@ -46,7 +47,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       } else {
         return Left(NotFoundFailure('Registro de asistencia no encontrado'));
       }
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -75,7 +76,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       // Obtener desde la fuente local
       final records = await localDataSource.getAllAttendanceRecords();
       return Right(records);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -126,7 +127,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       );
 
       return Right(records);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -157,8 +158,11 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
         }
 
         if (!(isLocationValid.getOrElse(() => false))) {
-          return Left(ValidationFailure(
-              'La ubicación no es válida para registrar la asistencia'));
+          return Left(
+            ValidationFailure(
+              'La ubicación no es válida para registrar la asistencia',
+            ),
+          );
         }
       }
 
@@ -171,8 +175,11 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
           );
 
           if (!isIdentityValid) {
-            return Left(FaceRecognitionFailure(
-                'No se pudo validar la identidad del usuario'));
+            return Left(
+              FaceRecognitionFailure(
+                'No se pudo validar la identidad del usuario',
+              ),
+            );
           }
         } catch (e) {
           // Si falla la validación, continuar pero marcar como no válido
@@ -197,7 +204,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
 
           // Guardar en la caché local
           await localDataSource.createAttendanceRecord(attendance);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           return Left(ServerFailure(message: e.message));
         }
       } else {
@@ -233,7 +240,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       }
 
       return Right(attendance);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -270,7 +277,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
 
           // Actualizar en la caché local
           await localDataSource.updateAttendanceRecord(attendance);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           return Left(ServerFailure(message: e.message));
         }
       } else {
@@ -305,7 +312,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       }
 
       return Right(attendance);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -319,7 +326,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
         try {
           // Eliminar en el servidor
           await remoteDataSource.deleteAttendanceRecord(id);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           return Left(ServerFailure(message: e.message));
         }
       }
@@ -327,7 +334,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       // Eliminar localmente (incluso si la operación remota falla)
       try {
         await localDataSource.deleteAttendanceRecord(id);
-      } on DatabaseException catch (e) {
+      } on DatabaseExceptionApp catch (e) {
         return Left(DatabaseFailure(e.message));
       }
 
@@ -368,7 +375,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       );
 
       return Right(records);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -409,7 +416,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       );
 
       return Right(records);
-    } on DatabaseException catch (e) {
+    } on DatabaseExceptionApp catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
       return Left(UnexpectedFailure());
@@ -432,7 +439,7 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
           );
 
           return Right(isValid);
-        } on ServerException catch (e) {
+        } on ServerExceptionApp catch (e) {
           return Left(ServerFailure(message: e.message));
         }
       }
@@ -465,11 +472,14 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       );
 
       return Right(isValid);
-    } on ServerException catch (e) {
+    } on ServerExceptionApp catch (e) {
       return Left(ServerFailure(message: e.message));
     } catch (e) {
       return Left(
-          FaceRecognitionFailure('Error al validar la identidad del usuario'));
+        FaceRecognitionFailure(
+          'Error al validar la identidad del usuario',
+        ),
+      );
     }
   }
 

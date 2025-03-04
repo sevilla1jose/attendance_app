@@ -15,7 +15,7 @@ class AddLocation {
   /// [params] - Parámetros necesarios para crear una ubicación
   ///
   /// Retorna la ubicación creada si la operación es exitosa
-  Future<Either<Failure, Location>> call(Params params) async {
+  Future<Either<Failure, Location>> call(AddLocationParams params) async {
     return await repository.createLocation(
       name: params.name,
       address: params.address,
@@ -27,14 +27,14 @@ class AddLocation {
 }
 
 /// Parámetros para el caso de uso AddLocation
-class Params extends Equatable {
+class AddLocationParams extends Equatable {
   final String name;
   final String address;
   final double latitude;
   final double longitude;
   final double? radius;
 
-  const Params({
+  const AddLocationParams({
     required this.name,
     required this.address,
     required this.latitude,
